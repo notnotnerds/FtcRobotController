@@ -19,6 +19,7 @@ public class DrivingPractice   extends LinearOpMode {
         telemetry.addLine("To rotate, use the right joystick x");
         telemetry.addLine("To strafe side to side, use the left joystick x");
         telemetry.addLine("For now, you will be limited to half power. When you get better, you will be given the option to advance");
+        telemetry.addLine("Don't crash the robot! Or the coders will be furious");
         telemetry.update();
 
         fl=hardwareMap.dcMotor.get("fl");
