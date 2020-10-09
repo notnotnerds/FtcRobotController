@@ -30,17 +30,17 @@ public class DrivingPractice   extends LinearOpMode {
 
 
 
-        double m=.75; //speed multiplier
+        double m=.5; //speed multiplier
 
         waitForStart();
         while (opModeIsActive()) {
             double drive=gamepad1.right_stick_y;
-            double strafe=gamepad1.right_stick_x;
-            double rotate=gamepad1.left_stick_x;
-            bl.setPower(m * (-gamepad1.right_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x));
-            br.setPower(m * (-gamepad1.right_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x));
-            fr.setPower(m * (-gamepad1.right_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x));
-            fl.setPower(m * (-gamepad1.right_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x));
+            double strafe=gamepad1.left_stick_x;
+            double rotate=gamepad1.right_stick_x;
+            bl.setPower(m * (gamepad1.right_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x));
+            br.setPower(m * (gamepad1.right_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x));
+            fr.setPower(m * (-gamepad1.right_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x));
+            fl.setPower(m * (-gamepad1.right_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x));
         }
     }
 }
