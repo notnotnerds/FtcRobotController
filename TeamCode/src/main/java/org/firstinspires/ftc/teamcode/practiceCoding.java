@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous
-public class practiceCoding extends LinearOpMode {
+public class practiceCoding   extends LinearOpMode {
     public DcMotor fl;
     public DcMotor fr;
     public DcMotor bl;
@@ -21,16 +21,16 @@ public class practiceCoding extends LinearOpMode {
         telemetry.addLine("For now, you will be limited to quarter power. When you get better, you will be given the option to advance");
         telemetry.update();
 
-        fl = hardwareMap.dcMotor.get("fl");
-        fr = hardwareMap.dcMotor.get("fr");
-        bl = hardwareMap.dcMotor.get("bl");
-        br = hardwareMap.dcMotor.get("br");
+        fl=hardwareMap.dcMotor.get("fl");
+        fr=hardwareMap.dcMotor.get("fr");
+        bl=hardwareMap.dcMotor.get("bl");
+        br=hardwareMap.dcMotor.get("br");
 
 
-        double drive = gamepad1.right_stick_y;
-        double strafe = gamepad1.left_stick_x;
-        double rotate = gamepad1.right_stick_x;
-        double m = .25; //speed multiplier
+        double drive=gamepad1.right_stick_y;
+        double strafe=gamepad1.left_stick_x;
+        double rotate=gamepad1.right_stick_x;
+        double m=.25; //speed multiplier
 
         waitForStart();
         while (opModeIsActive()) {
