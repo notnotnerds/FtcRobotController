@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 
-@TeleOp (name="Robot Driving Practice, beginner level", group="drivers")
-public class DrivingPractice   extends LinearOpMode {
+@TeleOp (name = "Robot Driving Practice, beginner level", group = "drivers")
+public class DrivingPractice extends LinearOpMode {
     public DcMotor fl;
     public DcMotor fr;
     public DcMotor bl;
@@ -29,10 +29,10 @@ public class DrivingPractice   extends LinearOpMode {
         telemetry.addLine("For now, you will be limited to half power. When you get better, you will be given the option to advance");
         telemetry.update();
 
-        fl=hardwareMap.dcMotor.get("fl");
-        fr=hardwareMap.dcMotor.get("fr");
-        bl=hardwareMap.dcMotor.get("bl");
-        br=hardwareMap.dcMotor.get("br");
+        fl = hardwareMap.dcMotor.get("fl");
+        fr = hardwareMap.dcMotor.get("fr");
+        bl = hardwareMap.dcMotor.get("bl");
+        br = hardwareMap.dcMotor.get("br");
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
         FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -41,9 +41,9 @@ public class DrivingPractice   extends LinearOpMode {
         vuforiaParams.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         VuforiaLocalizer vuforia = ClassFactory.getInstance().createVuforia(vuforiaParams);
 
-        FtcDashboard.getInstance().startCameraStream(vuforia, 15    );
+        FtcDashboard.getInstance().startCameraStream(vuforia, 15);
 
-        double m=.5; //speed multiplier
+        double m = .5; //speed multiplier
         waitForStart();
 
 
@@ -56,16 +56,16 @@ public class DrivingPractice   extends LinearOpMode {
 
             dashboard.sendTelemetryPacket(packet);
             if(gamepad1.start){
-                if(m==.5){
-                    m=1;
+                if(m == .5){
+                    m = 1;
                 }
-                else if(m==1){
-                    m=.5;
+                else if(m == 1){
+                    m = .5;
                 }
             }
-            double drive=gamepad1.right_stick_y;
-            double strafe=gamepad1.right_stick_x;
-            double rotate=gamepad1.left_stick_x;
+            double drive = gamepad1.right_stick_y;
+            double strafe = gamepad1.right_stick_x;
+            double rotate = gamepad1.left_stick_x;
             bl.setPower(m * (-gamepad1.right_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x));
             br.setPower(m * (-gamepad1.right_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x));
             fr.setPower(m * (-gamepad1.right_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x));
