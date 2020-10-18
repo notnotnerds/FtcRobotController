@@ -55,7 +55,7 @@ public class DrivingPractice extends LinearOpMode {
             packet.put("bl", bl.getCurrentPosition());
 
             dashboard.sendTelemetryPacket(packet);
-            if(gamepad1.start){
+            if(gamepad1.right_bumper){
                 if(m == .5){
                     m = 1;
                 }
@@ -66,10 +66,10 @@ public class DrivingPractice extends LinearOpMode {
             double drive = gamepad1.right_stick_y;
             double strafe = gamepad1.right_stick_x;
             double rotate = gamepad1.left_stick_x;
-            bl.setPower(m * (-gamepad1.right_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x));
-            br.setPower(m * (-gamepad1.right_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x));
-            fr.setPower(m * (-gamepad1.right_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x));
-            fl.setPower(m * (-gamepad1.right_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x));
+            bl.setPower(m * (-drive + rotate - strafe));
+            br.setPower(m * (-drive - rotate + strafe));
+            fr.setPower(m * (-drive + rotate + strafe));
+            fl.setPower(m * (-drive - rotate - strafe));
         }
     }
 }
