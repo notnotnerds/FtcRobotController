@@ -16,6 +16,7 @@ public class DrivingPractice extends LinearOpMode {
     public DcMotor fr;
     public DcMotor bl;
     public DcMotor br;
+    public DcMotor spinnyThing;
     public static final String VUFORIA_LICENSE_KEY = "Aexavmn/////AAABmUl/zLEAVkNRlPdiHR2DJVUbdMAWczi2uI4wYS0dVzMoCBOUbz61j6BKBgN4v5vGsrrBIUvBSVSagj1ljyujm+bKsJO/bPjvsLnpKQHN1KEpvaEIxKpS9Fryle+iG3Y2FRcf/4NyUad/Mm7eFQnj8hXzN00EGHqD9y+8UoHw+QNLyVKcvFXhrxbgsCoMqp4VRGczrpMT/t87f60fAcmNfXHcICDK2tWi5J2FFYVIfnAnKE+1V2YzNvvenSWBpKctSp9LCgy1BbBjSD99OwNqoHIMHwaVqkTbmb6t9EnRr160J0E22zTtzl2GUlM3hv9VKXGrqNrVygxWgTKEoDa/H6cRiQVCcPXKdR6qmHBLnoG+";
 
 
@@ -33,6 +34,7 @@ public class DrivingPractice extends LinearOpMode {
         fr = hardwareMap.dcMotor.get("fr");
         bl = hardwareMap.dcMotor.get("bl");
         br = hardwareMap.dcMotor.get("br");
+        spinnyThing =hardwareMap.dcMotor.get("intake");
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
         FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -44,6 +46,7 @@ public class DrivingPractice extends LinearOpMode {
         FtcDashboard.getInstance().startCameraStream(vuforia, 15);
 
         double m = .5; //speed multiplier
+        double p= .5;
         waitForStart();
 
 
@@ -63,9 +66,18 @@ public class DrivingPractice extends LinearOpMode {
                     m = .5;
                 }
             }
+            if(gamepad1.left_bumper){
+                if(p == .5){
+                p = 1;
+            }
+            else if(p == 1){
+                p = .5;
+            }
+        }
             double drive = gamepad1.right_stick_y;
             double strafe = gamepad1.right_stick_x;
             double rotate = gamepad1.left_stick_x;
+            spinnyThing.setPower(p);
             bl.setPower(m * (-drive + rotate - strafe));
             br.setPower(m * (-drive - rotate + strafe));
             fr.setPower(m * (-drive + rotate + strafe));

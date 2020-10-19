@@ -32,8 +32,7 @@ public class MiscExamples extends LinearOpMode
     ExpansionHubEx expansionHub;
 
     @Override
-    public void runOpMode() throws InterruptedException
-    {
+    public void runOpMode() throws InterruptedException {
         /*
          * Before init() was called on this user code, REV Extensions 2
          * was notified via OpModeManagerNotifier.Notifications and
@@ -41,7 +40,7 @@ public class MiscExamples extends LinearOpMode
          * in the hardwaremap for you. Historically, you would have
          * needed to call RevExtensions2.init()
          */
-        expansionHub = hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 2");
+        expansionHub = hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 173");
 
         String header =
                 "**********************************\n" +
@@ -52,7 +51,7 @@ public class MiscExamples extends LinearOpMode
         /*
          * Setting ExpansionHub LED color
          */
-        expansionHub.setLedColor(255, 0, 0);
+        expansionHub.setLedColor(255, 255, 0);
         telemetry.addLine("Setting Hub LED color");
 
         /*
@@ -62,8 +61,28 @@ public class MiscExamples extends LinearOpMode
         telemetry.addLine("Setting speed of all I2C buses");
 
         telemetry.update();
-
+        int r = 0;
+        int g = 100;
+        int b = 200;
         waitForStart();
-        while (opModeIsActive());
+        while (opModeIsActive()) {
+            expansionHub.setLedColor(r, g, b);
+            if (r > 254) {
+                r--;
+            } else if (r < 1) {
+                r++;
+            }
+            if (g > 254) {
+                g--;
+            } else if (g < 1) {
+                g++;
+            }
+            if (b > 254) {
+                b--;
+            } else if (b < 1) {
+                b++;
+            }
+            expansionHub.setLedColor(r, g, b);
+        }
     }
 }
