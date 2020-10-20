@@ -67,22 +67,18 @@ public class MiscExamples extends LinearOpMode
         waitForStart();
         while (opModeIsActive()) {
             expansionHub.setLedColor(r, g, b);
-            if (r > 254) {
-                r--;
-            } else if (r < 1) {
-                r++;
-            }
-            if (g > 254) {
-                g--;
-            } else if (g < 1) {
-                g++;
-            }
-            if (b > 254) {
-                b--;
-            } else if (b < 1) {
-                b++;
-            }
-            expansionHub.setLedColor(r, g, b);
+            expansionHub.setLedColor(100, 100, 0);
+            sleep(250);
+            expansionHub.setLedColor(100, 0, 100);
+            sleep(250);
+            expansionHub.setLedColor(0, 100, 100);
+            sleep(250);
+            expansionHub.setLedColor(100, 100, 100);
+            sleep(250);
+            expansionHub.setLedColor(200, 200, 200);
+            sleep(250);
+            expansionHub.setLedColor(255, 0, 0);
+            sleep(250);
         }
     }
 }
