@@ -6,10 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-
 @TeleOp (name = "Robot Driving Practice, beginner level", group = "drivers")
 public class DrivingPractice extends LinearOpMode {
     public DcMotor fl;
@@ -17,7 +13,6 @@ public class DrivingPractice extends LinearOpMode {
     public DcMotor bl;
     public DcMotor br;
     public DcMotor spinnyThing;
-    public static final String VUFORIA_LICENSE_KEY = "Aexavmn/////AAABmUl/zLEAVkNRlPdiHR2DJVUbdMAWczi2uI4wYS0dVzMoCBOUbz61j6BKBgN4v5vGsrrBIUvBSVSagj1ljyujm+bKsJO/bPjvsLnpKQHN1KEpvaEIxKpS9Fryle+iG3Y2FRcf/4NyUad/Mm7eFQnj8hXzN00EGHqD9y+8UoHw+QNLyVKcvFXhrxbgsCoMqp4VRGczrpMT/t87f60fAcmNfXHcICDK2tWi5J2FFYVIfnAnKE+1V2YzNvvenSWBpKctSp9LCgy1BbBjSD99OwNqoHIMHwaVqkTbmb6t9EnRr160J0E22zTtzl2GUlM3hv9VKXGrqNrVygxWgTKEoDa/H6cRiQVCcPXKdR6qmHBLnoG+";
 
 
 
@@ -38,12 +33,6 @@ public class DrivingPractice extends LinearOpMode {
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
         FtcDashboard dashboard = FtcDashboard.getInstance();
-        VuforiaLocalizer.Parameters vuforiaParams = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
-        vuforiaParams.vuforiaLicenseKey = VUFORIA_LICENSE_KEY;
-        vuforiaParams.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-        VuforiaLocalizer vuforia = ClassFactory.getInstance().createVuforia(vuforiaParams);
-
-        FtcDashboard.getInstance().startCameraStream(vuforia, 15);
 
         double m = .5; //speed multiplier
         double p= .5;
