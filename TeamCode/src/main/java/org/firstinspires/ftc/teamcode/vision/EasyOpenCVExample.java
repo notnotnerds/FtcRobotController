@@ -23,6 +23,8 @@ package org.firstinspires.ftc.teamcode.vision;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -38,13 +40,13 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-@TeleOp
+@Disabled
 public class EasyOpenCVExample extends LinearOpMode
 {
     OpenCvInternalCamera phoneCam;
     SkystoneDeterminationPipeline pipeline;
     FtcDashboard dashboard = FtcDashboard.getInstance();
-
+    public static int ringCount=4;
     @Override
     public void runOpMode()
     {
@@ -168,10 +170,13 @@ public class EasyOpenCVExample extends LinearOpMode
             position = RingPosition.FOUR; // Record our analysis
             if(avg1 > FOUR_RING_THRESHOLD){
                 position = RingPosition.FOUR;
+                ringCount=4;
             }else if (avg1 > ONE_RING_THRESHOLD){
                 position = RingPosition.ONE;
+                ringCount=1;
             }else{
                 position = RingPosition.NONE;
+                ringCount=0;
             }
 
             Imgproc.rectangle(
