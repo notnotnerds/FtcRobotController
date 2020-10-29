@@ -40,13 +40,12 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-@Disabled
 public class EasyOpenCVExample extends LinearOpMode
 {
     OpenCvInternalCamera phoneCam;
     SkystoneDeterminationPipeline pipeline;
-    FtcDashboard dashboard = FtcDashboard.getInstance();
-    public static int ringCount=4;
+
+    public static int ringCount=0;
     @Override
     public void runOpMode()
     {
@@ -77,11 +76,6 @@ public class EasyOpenCVExample extends LinearOpMode
             telemetry.addData("Analysis", pipeline.getAnalysis());
             telemetry.addData("Position", pipeline.position);
             telemetry.update();
-            TelemetryPacket packet = new TelemetryPacket();
-            packet.put("Analysis", pipeline.getAnalysis());
-            packet.put("Position", pipeline.position);
-
-            dashboard.sendTelemetryPacket(packet);
 
             // Don't burn CPU cycles busy-looping in this sample
             sleep(50);
@@ -91,7 +85,7 @@ public class EasyOpenCVExample extends LinearOpMode
     public static class SkystoneDeterminationPipeline extends OpenCvPipeline
     {
         /*
-         * An enum to define the skystone position
+         * An enum to define the ring count
          */
         public enum RingPosition
         {

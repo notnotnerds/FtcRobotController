@@ -36,11 +36,12 @@ public class AutoBR extends LinearOpMode{
     public DcMotor br;
     public DcMotor spinnyThing; //aka slow motor
     public DcMotor fasterSpinnyThing; //aka 6k rpm motor
+    //public DcMotor waitWeNeedAnotherMotor; //oh come on, don't force me to give them names
     ExpansionHubEx expansionHub;
-    public EasyOpenCVExample Camera ;
-    public Servo grabber;
-    public Servo grabNFlip;
-
+    public Servo grabber; //who said we needed to give them normal names?
+    public Servo grabNFlip; //seriously, you thought I would name this better?
+    //public Servo IDK; //since when do I have to give them all proper names?
+    //public Servo angler; //It just angles the launcher mechanism
     @Override
     public void runOpMode()  {
         telemetry.addLine("Robot has been turned on. Run for your life!");
@@ -55,6 +56,7 @@ public class AutoBR extends LinearOpMode{
         //fasterSpinnyThing=hardwareMap.dcMotor.get("shooter");
         //grabber=hardwareMap.servo.get("grabber";
         //grabNFlip=hardwareMap.servo.get("flipper");
+        //angler=hardwareMap.servo.get("angler");
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
 

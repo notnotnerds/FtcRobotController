@@ -31,8 +31,8 @@ import org.openftc.revextensions2.ExpansionHubEx;
  ***********************We do not guarantee that your robot will function correctly after you have used this code*************
  ***********************Please use some other team's code****************
  */
-@Disabled
-@TeleOp(name ="Party", group = "Party mode!")
+
+@TeleOp(name ="Party")
 public class hubLED extends LinearOpMode
 {
     ExpansionHubEx expansionHub;
@@ -55,9 +55,9 @@ public class hubLED extends LinearOpMode
 
 
         telemetry.update();
-        int r;
-        int g;
-        int b;
+        int r=0;
+        int g=0;
+        int b=0;
         waitForStart();
         while (opModeIsActive()) {
            /* -------this is definitely not a loop---------
@@ -75,7 +75,7 @@ public class hubLED extends LinearOpMode
             expansionHub.setLedColor(255, 0, 0);
             sleep(250);*/
 
- /*         -------This is loop type 1----------
+ //         -------This is loop type 1----------
             for (r=0; r<255; r++){
                 expansionHub.setLedColor(r, g, b);
             }
@@ -93,7 +93,7 @@ public class hubLED extends LinearOpMode
                 }
                 if(b>=255){
                     b=0;
-                }*/
+                }/*
             // --------This is loop type 2-----------
             for (r=0, g=100, b=200; r<255 & g<255 & b<255; r++, g++, b++){
                 expansionHub.setLedColor(r, g, b);
@@ -110,7 +110,7 @@ public class hubLED extends LinearOpMode
                 if(b>=255){
                     b=0;
                 }
-            }
+            }*/
 
 
         }

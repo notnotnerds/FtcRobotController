@@ -27,7 +27,7 @@ public class OurTeleop extends LinearOpMode {
     public Servo grabber; //who said we needed to give them normal names?
     public Servo grabNFlip; //seriously, you thought I would name this better?
     //public Servo IDK; //since when do I have to give them all proper names?
-
+    //public Servo angler; //It just angles the launcher mechanism
     @Override
     public void runOpMode()  {
         telemetry.addLine("Robot has been turned on. Run for your life!");
@@ -42,6 +42,7 @@ public class OurTeleop extends LinearOpMode {
         //fasterSpinnyThing=hardwareMap.dcMotor.get("shooter");
         //grabber=hardwareMap.servo.get("grabber";
         //grabNFlip=hardwareMap.servo.get("flipper");
+        //angler=hardwareMap.servo.get("angler");
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
         FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -50,7 +51,6 @@ public class OurTeleop extends LinearOpMode {
         double p= .5;
         double a=1;
         double timer=0;
-        double IHaveNothingToDo=0; //don't you dare touch this! --Stephan
         waitForStart();
 
 
@@ -86,12 +86,6 @@ public class OurTeleop extends LinearOpMode {
                 }
             }
         }
-
-            double drive = gamepad1.right_stick_y;
-            double strafe = gamepad1.right_stick_x;
-            double rotate = gamepad1.left_stick_x;
-            //spinnyThing.setPower(p*a);
-
             if(gamepad1.right_trigger>.1){
                 if(timer<=250) {
                     //  fasterSpinnyThing.setPower(gamepad1.right_trigger); //if you are holding me for too long, I will tell you that you have failed to use correctly --6k rpm yellow jacket
@@ -100,16 +94,24 @@ public class OurTeleop extends LinearOpMode {
                     telemetry.update();
                     timer = timer + 1;
                 }
-                if(timer>=250){
+                if(timer>=500){
                     //  fasterSpinnyThing.setPower(0); //Don't burn me
                     telemetry.addLine("You are currently heating my special motor up"); //--Rev Control Hub
                     String overheat_notice = "You have been using my poor motor for the last " + timer + "cycles of you holding down the right trigger\n" + "release it now!"; //--Rev Control Hub
                     telemetry.addLine(overheat_notice);
+                    telemetry.update();
                 }
-                if(gamepad1.right_trigger<.1){
-                    timer=0;
             }
+            else if(gamepad1.right_trigger<.1){
+                timer=0;
             }
+            //spinnyThing.setPower(p*a);
+
+            //drive stuff beneath here
+            double drive = gamepad1.right_stick_y;
+            double strafe = gamepad1.right_stick_x;
+            double rotate = gamepad1.left_stick_x;
+
             bl.setPower(m * (-drive + rotate - strafe));
             br.setPower(m * (-drive - rotate + strafe));
             fr.setPower(m * (-drive + rotate + strafe));
