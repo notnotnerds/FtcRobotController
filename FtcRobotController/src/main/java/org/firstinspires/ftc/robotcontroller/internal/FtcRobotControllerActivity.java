@@ -522,6 +522,11 @@ public class FtcRobotControllerActivity extends Activity
     }
   }
 
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.ftc_robot_controller, menu);
+    return true;
+  }
 
 
   private boolean isRobotRunning() {
