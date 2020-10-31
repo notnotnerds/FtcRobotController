@@ -87,7 +87,7 @@ public class OurTeleop extends LinearOpMode {
             }
         }
             if(gamepad1.right_trigger>.1){
-                if(timer<=250) {
+                if(timer<500) {
                     //  fasterSpinnyThing.setPower(gamepad1.right_trigger); //if you are holding me for too long, I will tell you that you have failed to use correctly --6k rpm yellow jacket
                     telemetry.addLine("You are currently heating my special motor up"); //--rev control hub
                     telemetry.addData("timer says", timer);
