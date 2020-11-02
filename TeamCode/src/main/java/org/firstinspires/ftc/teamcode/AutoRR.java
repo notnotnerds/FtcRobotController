@@ -9,8 +9,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.teamcode.vision.EasyOpenCVExample;
+import org.firstinspires.ftc.teamcode.vision.CameraEx;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.revextensions2.ExpansionHubEx;
 
 
@@ -26,6 +29,8 @@ public class AutoRR extends LinearOpMode{
              shoot at power shot 1st, 2nd, 3rd stick thing
      (when time is certain amount) sensor line and park over it
 */
+    OpenCvCamera webcam;
+    CameraEx.SkystoneDeterminationPipeline pipeline;
     public DcMotor fl;
     public DcMotor fr;
     public DcMotor bl;
@@ -55,6 +60,10 @@ public class AutoRR extends LinearOpMode{
         //angler=hardwareMap.servo.get("angler");
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        pipeline = new CameraEx.SkystoneDeterminationPipeline();
+        webcam.setPipeline(pipeline);
 
         double m = .5; //speed multiplier
         double p= .5;
@@ -86,16 +95,16 @@ public class AutoRR extends LinearOpMode{
 
 
         while (opModeIsActive()) {//just flash LED's for now
-            if(EasyOpenCVExample.ringCount==4) {
+            if(CameraEx.ringCount==4) {
                 RedZoneA();
             }
-            else if(EasyOpenCVExample.ringCount==1){
+            else if(CameraEx.ringCount==1){
                 RedZoneB();
             }
             else{
                 RedZoneC();
             }
-            telemetry.addData("Ring Count", EasyOpenCVExample.ringCount);
+            telemetry.addData("Ring Count", CameraEx.ringCount);
             telemetry.update();
 
         }

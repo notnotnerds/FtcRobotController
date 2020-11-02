@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,10 +11,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.teamcode.vision.EasyOpenCVExample;
+import org.firstinspires.ftc.teamcode.vision.CameraEx;
 import org.openftc.revextensions2.ExpansionHubEx;
 
-
+@Disabled
 @Autonomous (name = "Blue side left", group = "Autonomous stuff")
 public class AutoBL extends LinearOpMode{
     /* where is the starting position (depending on which line it's starting at) (repeat until certain amount of time idk)
@@ -81,16 +82,16 @@ public class AutoBL extends LinearOpMode{
 
 
         while (opModeIsActive()) {//just flash LED's for now
-            if(EasyOpenCVExample.ringCount==4) {
+            if(CameraEx.ringCount==4) {
                 BlueZoneA();
             }
-            else if(EasyOpenCVExample.ringCount==1){
+            else if(CameraEx.ringCount==1){
                 BlueZoneB();
             }
             else{
                 BlueZoneC();
             }
-            telemetry.addData("Ring Count", EasyOpenCVExample.ringCount);
+            telemetry.addData("Ring Count", CameraEx.ringCount);
             telemetry.update();
 
         }

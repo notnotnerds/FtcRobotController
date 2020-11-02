@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.vision.EasyOpenCVExample;
+import org.firstinspires.ftc.teamcode.vision.CameraEx;
 import org.openftc.revextensions2.ExpansionHubEx;
 
 
@@ -44,16 +44,16 @@ public class RingDetectorTest extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {//just flash LED's for now
-            if(EasyOpenCVExample.ringCount==4) {
+            if(CameraEx.ringCount==4) {
                 noRings();
             }
-            else if(EasyOpenCVExample.ringCount==1){
+            else if(CameraEx.ringCount==1){
                 oneRing();
             }
             else{
                 fourRings();
             }
-            telemetry.addData("Ring Count", EasyOpenCVExample.ringCount);
+            telemetry.addData("Ring Count", CameraEx.ringCount);
             telemetry.update();
 
         }
