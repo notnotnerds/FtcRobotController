@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.vision.CameraEx;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.revextensions2.ExpansionHubEx;
 
 
@@ -39,6 +40,7 @@ public class AutoRR extends LinearOpMode{
     public DcMotor fasterSpinnyThing; //aka 6k rpm motor
     //public DcMotor waitWeNeedAnotherMotor; //oh come on, don't force me to give them names
     ExpansionHubEx expansionHub;
+    DirectionalMovement DirectionalMovement;
     public Servo grabber; //who said we needed to give them normal names?
     public Servo grabNFlip; //seriously, you thought I would name this better?
     //public Servo IDK; //since when do I have to give them all proper names?
@@ -67,30 +69,16 @@ public class AutoRR extends LinearOpMode{
 
         double m = .5; //speed multiplier
         double p= .5;
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                webcam.startStreaming(640, 480, OpenCvCameraRotation.UPSIDE_DOWN); //keep it at 480p
+            }
+        });
         waitForStart();
-//-------------the following lines move the robot to some area, hopefully forward, right, then back
-   /*     fl.setPower(-.5);
-        fr.setPower(-.5);
-        bl.setPower(-.5);
-        br.setPower(-.5);
-        sleep(2000);
-        fl.setPower(.5);
-        fr.setPower(-.5);
-        bl.setPower(-.5);
-        br.setPower(.5);
-        sleep(2000);
-        //drop wobble
-        fl.setPower(.5);
-        fr.setPower(.5);
-        bl.setPower(.5);
-        br.setPower(.5);
-        sleep(1000);
 
-        fl.setPower(0);
-        fr.setPower(0);
-        bl.setPower(0);
-        br.setPower(0);
-        */
 
 
 
@@ -116,6 +104,8 @@ public class AutoRR extends LinearOpMode{
         sleep(250);
         expansionHub.setLedColor(0, 0, 0);
         sleep(250);
+        DirectionalMovement.f=1000;
+        DirectionalMovement.forward();
     }
     public void RedZoneB(){
         //make it to the target zone B
@@ -123,6 +113,8 @@ public class AutoRR extends LinearOpMode{
         sleep(250);
         expansionHub.setLedColor(0, 0, 0);
         sleep(250);
+        DirectionalMovement.f=1000;
+        DirectionalMovement.forward();
     }
     public void RedZoneC(){
         //make it to the target zone C
@@ -130,6 +122,8 @@ public class AutoRR extends LinearOpMode{
         sleep(250);
         expansionHub.setLedColor(0, 0, 0);
         sleep(250);
+        DirectionalMovement.f=1000;
+        DirectionalMovement.forward();
     }
 
 }

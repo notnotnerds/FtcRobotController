@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.vision.CameraEx;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.revextensions2.ExpansionHubEx;
 
 /*
@@ -47,6 +48,7 @@ public class AutoBR extends LinearOpMode{
     public Servo grabNFlip; //seriously, you thought I would name this better?
     //public Servo IDK; //since when do I have to give them all proper names?
     //public Servo angler; //It just angles the launcher mechanism
+    DirectionalMovement DirectionalMovement;
     @Override
     public void runOpMode()  {
         telemetry.addLine("Robot has been turned on. Run for your life!");
@@ -54,9 +56,13 @@ public class AutoBR extends LinearOpMode{
 
         expansionHub = hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 173");
         fl = hardwareMap.dcMotor.get("fl");
+        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fr = hardwareMap.dcMotor.get("fr");
+        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bl = hardwareMap.dcMotor.get("bl");
+        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br = hardwareMap.dcMotor.get("br");
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //spinnyThing =hardwareMap.dcMotor.get("intake");
         //fasterSpinnyThing=hardwareMap.dcMotor.get("shooter");
         //grabber=hardwareMap.servo.get("grabber";
@@ -69,34 +75,17 @@ public class AutoBR extends LinearOpMode{
         pipeline = new CameraEx.SkystoneDeterminationPipeline();
         webcam.setPipeline(pipeline);
 
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                webcam.startStreaming(640, 480, OpenCvCameraRotation.UPSIDE_DOWN); //keep it at 480p
+            }
+        });
         double m = .5; //speed multiplier
         double p= .5;
         waitForStart();
-//-------------the following lines move the robot to some area, hopefully forward, right, then back
-   /*     fl.setPower(-.5);
-        fr.setPower(-.5);
-        bl.setPower(-.5);
-        br.setPower(-.5);
-        sleep(2000);
-        fl.setPower(-.5);
-        fr.setPower(.5);
-        bl.setPower(.5);
-        br.setPower(-.5);
-        sleep(2000);
-        //drop wobble
-        fl.setPower(.5);
-        fr.setPower(.5);
-        bl.setPower(.5);
-        br.setPower(.5);
-        sleep(1000);
-
-        fl.setPower(0);
-        fr.setPower(0);
-        bl.setPower(0);
-        br.setPower(0);
-        */
-
-
 
         while (opModeIsActive()) {//just flash LED's for now
             if(CameraEx.ringCount==4) {
@@ -120,6 +109,8 @@ public class AutoBR extends LinearOpMode{
         sleep(250);
         expansionHub.setLedColor(0, 0, 0);
         sleep(250);
+        DirectionalMovement.f=1000;
+        DirectionalMovement.forward();
     }
     public void BlueZoneB(){
         //make it to the target zone B
@@ -127,6 +118,8 @@ public class AutoBR extends LinearOpMode{
         sleep(250);
         expansionHub.setLedColor(0, 0, 0);
         sleep(250);
+        DirectionalMovement.f=1000;
+        DirectionalMovement.forward();
     }
     public void BlueZoneC(){
         //make it to the target zone C
@@ -134,6 +127,8 @@ public class AutoBR extends LinearOpMode{
         sleep(250);
         expansionHub.setLedColor(0, 0, 0);
         sleep(250);
+        DirectionalMovement.f=1000;
+        DirectionalMovement.forward();
     }
 
 }
