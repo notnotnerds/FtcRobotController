@@ -18,8 +18,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.revextensions2.ExpansionHubEx;
 
 
-@Autonomous (name = "Red side right", group = "Autonomous stuff")
-public class AutoRR extends LinearOpMode{
+@Autonomous(name = "Red side right", group = "Autonomous stuff")
+public class AutoRR extends LinearOpMode {
     /* where is the starting position (depending on which line it's starting at) (repeat until certain amount of time idk)
          sensor how many rings
              put wobble goal in square A if 0 rings & go back to launch zone
@@ -43,10 +43,11 @@ public class AutoRR extends LinearOpMode{
     DirectionalMovement DirectionalMovement;
     public Servo grabber; //who said we needed to give them normal names?
     public Servo grabNFlip; //seriously, you thought I would name this better?
+
     //public Servo IDK; //since when do I have to give them all proper names?
     //public Servo angler; //It just angles the launcher mechanism
     @Override
-    public void runOpMode()  {
+    public void runOpMode() {
         telemetry.addLine("Robot has been turned on. Run for your life!");
         telemetry.update();
 
@@ -67,29 +68,20 @@ public class AutoRR extends LinearOpMode{
         pipeline = new CameraEx.SkystoneDeterminationPipeline();
         webcam.setPipeline(pipeline);
 
-        double m = .5; //speed multiplier
-        double p= .5;
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
-            public void onOpened()
-            {
+            public void onOpened() {
                 webcam.startStreaming(640, 480, OpenCvCameraRotation.UPSIDE_DOWN); //keep it at 480p
             }
         });
         waitForStart();
 
-
-
-
         while (opModeIsActive()) {//just flash LED's for now
-            if(CameraEx.ringCount==4) {
+            if (CameraEx.ringCount == 4) {
                 RedZoneA();
-            }
-            else if(CameraEx.ringCount==1){
+            } else if (CameraEx.ringCount == 1) {
                 RedZoneB();
-            }
-            else{
+            } else {
                 RedZoneC();
             }
             telemetry.addData("Ring Count", CameraEx.ringCount);
@@ -98,31 +90,33 @@ public class AutoRR extends LinearOpMode{
         }
     }
 
-    public void RedZoneA(){
+    public void RedZoneA() {
         //make it to the target zone A
         expansionHub.setLedColor(255, 0, 0);
         sleep(250);
         expansionHub.setLedColor(0, 0, 0);
         sleep(250);
-        DirectionalMovement.f=1000;
+        DirectionalMovement.f = 1000;
         DirectionalMovement.forward();
     }
-    public void RedZoneB(){
+
+    public void RedZoneB() {
         //make it to the target zone B
         expansionHub.setLedColor(0, 255, 0);
         sleep(250);
         expansionHub.setLedColor(0, 0, 0);
         sleep(250);
-        DirectionalMovement.f=1000;
+        DirectionalMovement.f = 1000;
         DirectionalMovement.forward();
     }
-    public void RedZoneC(){
+
+    public void RedZoneC() {
         //make it to the target zone C
         expansionHub.setLedColor(0, 0, 255);
         sleep(250);
         expansionHub.setLedColor(0, 0, 0);
         sleep(250);
-        DirectionalMovement.f=1000;
+        DirectionalMovement.f = 1000;
         DirectionalMovement.forward();
     }
 

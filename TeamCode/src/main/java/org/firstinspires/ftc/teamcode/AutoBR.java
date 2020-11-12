@@ -12,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.vision.CameraEx;
+import org.opencv.core.Mat;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -22,8 +23,8 @@ import org.openftc.revextensions2.ExpansionHubEx;
  ***********************We do not guarantee that your robot will function correctly after you have used this code*************
  ***********************Please use some other team's code****************
  */
-@Autonomous (name = "Blue side right", group = "Autonomous stuff")
-public class AutoBR extends LinearOpMode{
+@Autonomous(name = "Blue side right", group = "Autonomous stuff")
+public class AutoBR extends LinearOpMode {
     /* where is the starting position (depending on which line it's starting at) (repeat until certain amount of time idk)
          sensor how many rings
              put wobble goal in square A if 0 rings & go back to launch zone
@@ -48,9 +49,12 @@ public class AutoBR extends LinearOpMode{
     public Servo grabNFlip; //seriously, you thought I would name this better?
     //public Servo IDK; //since when do I have to give them all proper names?
     //public Servo angler; //It just angles the launcher mechanism
-    DirectionalMovement DirectionalMovement;
+    DirectionalMovement DirectionalMovement = new DirectionalMovement();
+    int f = 0;
+    int r = 0;
+
     @Override
-    public void runOpMode()  {
+    public void runOpMode() {
         telemetry.addLine("Robot has been turned on. Run for your life!");
         telemetry.update();
 
@@ -60,9 +64,9 @@ public class AutoBR extends LinearOpMode{
         fr = hardwareMap.dcMotor.get("fr");
         fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bl = hardwareMap.dcMotor.get("bl");
-        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br = hardwareMap.dcMotor.get("br");
-        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //spinnyThing =hardwareMap.dcMotor.get("intake");
         //fasterSpinnyThing=hardwareMap.dcMotor.get("shooter");
         //grabber=hardwareMap.servo.get("grabber";
@@ -75,23 +79,37 @@ public class AutoBR extends LinearOpMode{
         pipeline = new CameraEx.SkystoneDeterminationPipeline();
         webcam.setPipeline(pipeline);
 
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
-            public void onOpened()
-            {
+            public void onOpened() {
                 webcam.startStreaming(640, 480, OpenCvCameraRotation.UPSIDE_DOWN); //keep it at 480p
             }
         });
-        double m = .5; //speed multiplier
-        double p= .5;
-        waitForStart();
 
-        while (opModeIsActive()) {//just flash LED's for now
+        waitForStart();
+        f = 1000;
+       /* while (opModeIsActive()) {//just flash LED's for now
             if(CameraEx.ringCount==4) {
                 BlueZoneA();
             }
             else if(CameraEx.ringCount==1){
+                f=1000;
+                fl.setTargetPosition(f);
+                fr.setTargetPosition(f);
+                bl.setTargetPosition(f);
+                br.setTargetPosition(f);
+                fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                fl.setPower(-.5);
+                fr.setPower(-.5);
+                bl.setPower(-.5);
+                br.setPower(-.5);
                 BlueZoneB();
             }
             else{
@@ -100,34 +118,50 @@ public class AutoBR extends LinearOpMode{
             telemetry.addData("Ring Count", CameraEx.ringCount);
             telemetry.update();
 
-        }
+        }*/
     }
 
-    public void BlueZoneA(){
+
+    public void BlueZoneA() {
         //make it to the target zone A
         expansionHub.setLedColor(255, 0, 0);
         sleep(250);
         expansionHub.setLedColor(0, 0, 0);
         sleep(250);
-        DirectionalMovement.f=1000;
+        DirectionalMovement.f = 1000;
         DirectionalMovement.forward();
     }
-    public void BlueZoneB(){
+
+    public void BlueZoneB() {
         //make it to the target zone B
         expansionHub.setLedColor(0, 255, 0);
         sleep(250);
         expansionHub.setLedColor(0, 0, 0);
         sleep(250);
-        DirectionalMovement.f=1000;
+        DirectionalMovement.f = 1000;
         DirectionalMovement.forward();
+        while (opModeIsActive() &&
+                Math.abs(fl.getCurrentPosition()) <= f &&
+                Math.abs(fr.getCurrentPosition()) <= f) {
+            telemetry.addData("fl", fl.getCurrentPosition());
+            telemetry.addData("fr", fr.getCurrentPosition());
+            //telemetry.addData("bl", bl.getCurrentPosition());
+            //telemetry.addData("br", br.getCurrentPosition());
+            telemetry.update();
+        }
+        fl.setPower(0);
+        fr.setPower(0);
+        bl.setPower(0);
+        br.setPower(0);
     }
-    public void BlueZoneC(){
+
+    public void BlueZoneC() {
         //make it to the target zone C
         expansionHub.setLedColor(0, 0, 255);
         sleep(250);
         expansionHub.setLedColor(0, 0, 0);
         sleep(250);
-        DirectionalMovement.f=1000;
+        DirectionalMovement.f = 1000;
         DirectionalMovement.forward();
     }
 
