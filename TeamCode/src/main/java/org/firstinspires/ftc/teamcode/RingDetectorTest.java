@@ -8,7 +8,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.vision.CameraEx;
 import org.openftc.revextensions2.ExpansionHubEx;
 
-
+/*
+ ***************************************This code is the property of FTC team 12051 NotNotNerds***************************************
+ **********************We do not guarantee that your robot will function correctly after you have used this code**********************
+ **************************************************Please use some other team's code**************************************************
+ */
 @Autonomous
 public class RingDetectorTest extends LinearOpMode {
     public DcMotor fl;

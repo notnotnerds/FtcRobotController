@@ -2,7 +2,11 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
+/*
+ ***************************************This code is the property of FTC team 12051 NotNotNerds***************************************
+ **********************We do not guarantee that your robot will function correctly after you have used this code**********************
+ **************************************************Please use some other team's code**************************************************
+ */
 public class DirectionalMovement {
     public static DcMotor fl;
     public static DcMotor fr;

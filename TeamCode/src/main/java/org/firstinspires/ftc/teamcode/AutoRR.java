@@ -17,7 +17,11 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.revextensions2.ExpansionHubEx;
 
-
+/*
+ ***************************************This code is the property of FTC team 12051 NotNotNerds***************************************
+ **********************We do not guarantee that your robot will function correctly after you have used this code**********************
+ **************************************************Please use some other team's code**************************************************
+ */
 @Autonomous(name = "Red side right", group = "Autonomous stuff")
 public class AutoRR extends LinearOpMode {
     /* where is the starting position (depending on which line it's starting at) (repeat until certain amount of time idk)
@@ -25,7 +29,7 @@ public class AutoRR extends LinearOpMode {
              put wobble goal in square A if 0 rings & go back to launch zone
              put wobble goal in square B if 1 ring & go back to launch zone
              put wobble goal in square C if 4 rings & go back to launch zone
-         sensor rings, pick up rings, and get in position to shoot
+             locate rings, pick up rings, and get in position to shoot
              shoot at tower 1st, 2nd, 3rd hole
              shoot at power shot 1st, 2nd, 3rd stick thing
      (when time is certain amount) sensor line and park over it
@@ -77,11 +81,11 @@ public class AutoRR extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {//just flash LED's for now
-            if (CameraEx.ringCount == 4) {
+            if (CameraEx.ringCount == 4) {//4 rings
                 RedZoneA();
-            } else if (CameraEx.ringCount == 1) {
+            } else if (CameraEx.ringCount == 1) {//1 ring
                 RedZoneB();
-            } else {
+            } else {//0 rings
                 RedZoneC();
             }
             telemetry.addData("Ring Count", CameraEx.ringCount);

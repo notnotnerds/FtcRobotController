@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -11,9 +12,9 @@ import org.openftc.revextensions2.ExpansionHubEx;
 
 
 /*
- *************************This code is the property of FTC team 12051 NotNotNerds******************
- ***********************We do not guarantee that your robot will function correctly after you have used this code*************
- ***********************Please use some other team's code****************
+ ***************************************This code is the property of FTC team 12051 NotNotNerds***************************************
+ **********************We do not guarantee that your robot will function correctly after you have used this code**********************
+ **************************************************Please use some other team's code**************************************************
  */
 @TeleOp(group = "TeleOp")
 public class OurTeleop extends LinearOpMode {
@@ -28,8 +29,9 @@ public class OurTeleop extends LinearOpMode {
     public Servo grabber; //who said we needed to give them normal names?
     public Servo grabNFlip; //seriously, you thought I would name this better?
 
-    //public Servo IDK; //since when do I have to give them all proper names?
-    //public Servo angler; //It just angles the launcher mechanism
+    public CRServo belt_sander; //it sands down the rings
+    //public Servo angler; //It just angles the launcher mechanism--Maybe not use it?????? Or use a 117rpm with screw rod
+
     @Override
     public void runOpMode() {
         telemetry.addLine("Robot has been turned on. Run for your life!");
@@ -40,13 +42,14 @@ public class OurTeleop extends LinearOpMode {
         fr = hardwareMap.dcMotor.get("fr");
         bl = hardwareMap.dcMotor.get("bl");
         br = hardwareMap.dcMotor.get("br");
-        //spinnyThing =hardwareMap.dcMotor.get("intake");
+        spinnyThing =hardwareMap.dcMotor.get("intake");
         //fasterSpinnyThing=hardwareMap.dcMotor.get("shooter");
         //grabber=hardwareMap.servo.get("grabber";
         //grabNFlip=hardwareMap.servo.get("flipper");
         //angler=hardwareMap.servo.get("angler");
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
+        belt_sander=hardwareMap.crservo.get("belt-drive");
         FtcDashboard dashboard = FtcDashboard.getInstance();
 
         double m = .5; //Danny's favorite
@@ -90,6 +93,10 @@ public class OurTeleop extends LinearOpMode {
                     }
                 }
             }
+            if(gamepad1.x){
+                belt_sander.setPower(1);
+            }
+            spinnyThing.setPower(-gamepad1.left_trigger);
             if (gamepad1.right_trigger > .1) {
                 if (timer < 500) {
                     //  fasterSpinnyThing.setPower(gamepad1.right_trigger); //if you are holding me for too long, I will tell you that you have failed to use correctly --6k rpm yellow jacket
@@ -104,6 +111,7 @@ public class OurTeleop extends LinearOpMode {
                     String overheat_notice = "You have been using my poor motor for the last " + timer + "cycles of you holding down the right trigger\n" + "release it now!"; //--Rev Control Hub
                     telemetry.addLine(overheat_notice);
                     telemetry.update();
+                    //telemetry.clear(); //not sure if I should use this one
                 }
             } else if (gamepad1.right_trigger < .1) {
                 timer = 0;

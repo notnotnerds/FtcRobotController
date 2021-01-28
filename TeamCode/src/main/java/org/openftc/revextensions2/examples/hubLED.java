@@ -27,9 +27,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.openftc.revextensions2.ExpansionHubEx;
 /*
- *************************This code is the property of FTC team 12051 NotNotNerds******************
- ***********************We do not guarantee that your robot will function correctly after you have used this code*************
- ***********************Please use some other team's code****************
+ ***************************************This code is the property of FTC team 12051 NotNotNerds***************************************
+ **********************We do not guarantee that your robot will function correctly after you have used this code**********************
+ **************************************************Please use some other team's code**************************************************
  */
 
 @TeleOp(name ="Party")
