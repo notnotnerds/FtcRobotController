@@ -11,25 +11,19 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp (name="MotorTest", group = "testing")
 public class MotorTest extends LinearOpMode {
     public DcMotor Test;
+
     @Override
-    public void runOpMode(){
+    public void runOpMode() {
         telemetry.addLine("Robot has been turned on. Run for your life!");
         telemetry.update();
         Test = hardwareMap.dcMotor.get("t");
         waitForStart();
-        double a=-1;
+        double a = -1;
         telemetry.addLine("To change motor power, use a and b: a to increase into positives, b to increase negatively");
-        while(opModeIsActive()){
+        while (opModeIsActive()) {
             Test.setPower(-gamepad1.right_trigger);
-            if(gamepad1.x){
-                Test.setPower(a);                            }
+            telemetry.addData("Motor Speed:", Test.getPower());
+            telemetry.update();
         }
-
-        if(a>1 || a<-1){
-            telemetry.addLine("You have maxed out the motor speed");
-            a=0;
-        }
-        telemetry.addData("Motor Speed:", a);
-        telemetry.update();
     }
-}
+    }

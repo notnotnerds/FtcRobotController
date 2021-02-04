@@ -16,21 +16,18 @@ import org.openftc.revextensions2.ExpansionHubEx;
  **********************We do not guarantee that your robot will function correctly after you have used this code**********************
  **************************************************Please use some other team's code**************************************************
  */
-@TeleOp(group = "TeleOp")
+@TeleOp(name="Teleop", group = "TeleOp")
 public class OurTeleop extends LinearOpMode {
     public DcMotor fl;
     public DcMotor fr;
     public DcMotor bl;
     public DcMotor br;
-    public DcMotor spinnyThing; //aka slow motor
+    public DcMotor spinnyThing; //aka 1150 rpm motor, the one that makes a ton of noise by using zip ties.
     public DcMotor fasterSpinnyThing; //aka 6k rpm motor
-    //public DcMotor waitWeNeedAnotherMotor; //oh come on, don't force me to give them names
+    public DcMotor belt_sander; //it sands down the rings
     ExpansionHubEx expansionHub;
     public Servo grabber; //who said we needed to give them normal names?
     public Servo grabNFlip; //seriously, you thought I would name this better?
-
-    public CRServo belt_sander; //it sands down the rings
-    //public Servo angler; //It just angles the launcher mechanism--Maybe not use it?????? Or use a 117rpm with screw rod
 
     @Override
     public void runOpMode() {
@@ -46,21 +43,20 @@ public class OurTeleop extends LinearOpMode {
         //fasterSpinnyThing=hardwareMap.dcMotor.get("shooter");
         //grabber=hardwareMap.servo.get("grabber";
         //grabNFlip=hardwareMap.servo.get("flipper");
-        //angler=hardwareMap.servo.get("angler");
+        //belt_sander=hardwareMap.dcMotor.get("ring_lift");
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
-        belt_sander=hardwareMap.crservo.get("belt-drive");
-        FtcDashboard dashboard = FtcDashboard.getInstance();
+        //FtcDashboard dashboard = FtcDashboard.getInstance();
 
         double m = .5; //Danny's favorite
         double p = .5;
         double a = 1;
-        double timer = 0;
+        double counter = 0;
+
         waitForStart();
 
-
         while (opModeIsActive()) {
-            TelemetryPacket packet = new TelemetryPacket();
+            /*TelemetryPacket packet = new TelemetryPacket();
             packet.put("fl", fl.getCurrentPosition());
             packet.put("fr", fr.getCurrentPosition());
             packet.put("br", br.getCurrentPosition());
@@ -71,7 +67,7 @@ public class OurTeleop extends LinearOpMode {
             telemetry.addData("fr", fr.getCurrentPosition());
             telemetry.addData("bl", bl.getCurrentPosition());
             telemetry.addData("br", br.getCurrentPosition());
-            telemetry.update();
+            telemetry.update();*/
             if (gamepad1.right_bumper) {
                 if (m == .5) {
                     m = 1;
@@ -96,25 +92,28 @@ public class OurTeleop extends LinearOpMode {
             if(gamepad1.x){
                 belt_sander.setPower(1);
             }
+            else if(gamepad1.x && gamepad1.y){
+                belt_sander.setPower(-1);
+            }
             spinnyThing.setPower(-gamepad1.left_trigger);
             if (gamepad1.right_trigger > .1) {
-                if (timer < 500) {
+                if (counter < 500) {
                     //  fasterSpinnyThing.setPower(gamepad1.right_trigger); //if you are holding me for too long, I will tell you that you have failed to use correctly --6k rpm yellow jacket
-                    telemetry.addLine("You are currently heating my special motor up"); //--rev control hub
-                    telemetry.addData("timer says", timer);
+                    telemetry.addLine("You are currently heating my special motor up --definitely not Stephan"); //--rev control hub
+                    telemetry.addData("counter says", counter);
                     telemetry.update();
-                    timer = timer + 1;
+                    counter = counter + 1;
                 }
-                if (timer >= 500) {
+                if (counter >= 500) {
                     //  fasterSpinnyThing.setPower(0); //Don't burn me
                     telemetry.addLine("You are currently heating my special motor up"); //--Rev Control Hub
-                    String overheat_notice = "You have been using my poor motor for the last " + timer + "cycles of you holding down the right trigger\n" + "release it now!"; //--Rev Control Hub
+                    String overheat_notice = "You have been using my poor motor for the last " + counter + "cycles of you holding down the right trigger\n" + "release it now!"; //--Rev Control Hub
                     telemetry.addLine(overheat_notice);
                     telemetry.update();
                     //telemetry.clear(); //not sure if I should use this one
                 }
             } else if (gamepad1.right_trigger < .1) {
-                timer = 0;
+                counter = 0;
             }
             //spinnyThing.setPower(p*a);
 

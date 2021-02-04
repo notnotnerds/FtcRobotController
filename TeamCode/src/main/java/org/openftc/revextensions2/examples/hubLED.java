@@ -93,7 +93,8 @@ public class hubLED extends LinearOpMode
                 }
                 if(b>=255){
                     b=0;
-                }/*
+                }
+                /*
             // --------This is loop type 2-----------
             for (r=0, g=100, b=200; r<255 & g<255 & b<255; r++, g++, b++){
                 expansionHub.setLedColor(r, g, b);

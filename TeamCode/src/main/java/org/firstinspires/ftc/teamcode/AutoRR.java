@@ -78,6 +78,20 @@ public class AutoRR extends LinearOpMode {
                 webcam.startStreaming(640, 480, OpenCvCameraRotation.UPSIDE_DOWN); //keep it at 480p
             }
         });
+        //we are initialized and waiting for start
+        expansionHub.setLedColor(100, 100, 0);
+        sleep(200);
+        expansionHub.setLedColor(100, 0, 100);
+        sleep(200);
+        expansionHub.setLedColor(0, 100, 100);
+        sleep(200);
+        expansionHub.setLedColor(100, 100, 100);
+        sleep(200);
+        expansionHub.setLedColor(200, 200, 200);
+        sleep(200);
+        expansionHub.setLedColor(255, 0, 0);
+        sleep(200);
+        telemetry.addLine("Robot can now start the game");
         waitForStart();
 
         while (opModeIsActive()) {//just flash LED's for now
