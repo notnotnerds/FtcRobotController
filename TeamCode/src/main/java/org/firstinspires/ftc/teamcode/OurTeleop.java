@@ -24,7 +24,9 @@ public class OurTeleop extends LinearOpMode {
     public DcMotor br;
     public DcMotor spinnyThing; //aka 1150 rpm motor, the one that makes a ton of noise by using zip ties.
     public DcMotor fasterSpinnyThing; //aka 6k rpm motor
-    public DcMotor belt_sander; //it sands down the rings
+    public DcMotor ring_sander; //it sands down the rings
+    public DcMotor wobble_lift; //it raises the wobble goal over the field edge
+    public Servo ring_kicker; //it kicks the rings into the fasterSpinnyThing
     ExpansionHubEx expansionHub;
     public Servo grabber; //who said we needed to give them normal names?
     public Servo grabNFlip; //seriously, you thought I would name this better?
@@ -40,10 +42,12 @@ public class OurTeleop extends LinearOpMode {
         bl = hardwareMap.dcMotor.get("bl");
         br = hardwareMap.dcMotor.get("br");
         spinnyThing =hardwareMap.dcMotor.get("intake");
+        //wobble_lift=hardwareMap.dcMotor.get("lift");
         //fasterSpinnyThing=hardwareMap.dcMotor.get("shooter");
         //grabber=hardwareMap.servo.get("grabber";
         //grabNFlip=hardwareMap.servo.get("flipper");
-        //belt_sander=hardwareMap.dcMotor.get("ring_lift");
+        //ring_sander=hardwareMap.dcMotor.get("ring_lift");
+        //ring_kicker=hardwareMap.servo.get("ring_push");
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
         //FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -90,10 +94,10 @@ public class OurTeleop extends LinearOpMode {
                 }
             }
             if(gamepad1.x){
-                belt_sander.setPower(1);
+                ring_sander.setPower(1);
             }
             else if(gamepad1.x && gamepad1.y){
-                belt_sander.setPower(-1);
+                ring_sander.setPower(-1);
             }
             spinnyThing.setPower(-gamepad1.left_trigger);
             if (gamepad1.right_trigger > .1) {
