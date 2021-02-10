@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.view.contentcapture.DataRemovalRequest;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -94,7 +96,7 @@ public class AutoRR extends LinearOpMode {
         telemetry.addLine("Robot can now start the game");
         waitForStart();
 
-        while (opModeIsActive()) {//just flash LED's for now
+        while (opModeIsActive()) {
             if (CameraEx.ringCount == 4) {//4 rings
                 RedZoneA();
             } else if (CameraEx.ringCount == 1) {//1 ring
@@ -110,32 +112,56 @@ public class AutoRR extends LinearOpMode {
 
     public void RedZoneA() {
         //make it to the target zone A
+        //led to remove delay for comp
         expansionHub.setLedColor(255, 0, 0);
         sleep(250);
         expansionHub.setLedColor(0, 0, 0);
         sleep(250);
         DirectionalMovement.f = 1000;
         DirectionalMovement.forward();
+        DirectionalMovement.sl=500;
+        DirectionalMovement.strafeLeft();
+        DirectionalMovement.f=500;
+        DirectionalMovement.forward();
+        //release wobble
+        DirectionalMovement.r=1000;
+        DirectionalMovement.backward();
+        //shoot whatever is loaded into robot
     }
 
     public void RedZoneB() {
         //make it to the target zone B
+        //led to remove delay for comp
         expansionHub.setLedColor(0, 255, 0);
         sleep(250);
         expansionHub.setLedColor(0, 0, 0);
         sleep(250);
         DirectionalMovement.f = 1000;
         DirectionalMovement.forward();
+        //shoot whatever is preloaded into robot
+        //collect the one ring
+        DirectionalMovement.f=1000;
+        DirectionalMovement.forward();
+        //drop wobble goal
     }
 
     public void RedZoneC() {
         //make it to the target zone C
+        //led to remove delay for comp
         expansionHub.setLedColor(0, 0, 255);
         sleep(250);
         expansionHub.setLedColor(0, 0, 0);
         sleep(250);
         DirectionalMovement.f = 1000;
         DirectionalMovement.forward();
+        //shoot all preloaded rings
+        DirectionalMovement.sl=500;
+        DirectionalMovement.strafeLeft();
+        DirectionalMovement.f=1000;
+        DirectionalMovement.forward();
+        //drop wobble goal
+        DirectionalMovement.r=1000;
+        DirectionalMovement.backward();
     }
 
 }

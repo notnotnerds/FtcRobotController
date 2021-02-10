@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 /*
  ***************************************This code is the property of FTC team 12051 NotNotNerds***************************************
@@ -13,9 +12,9 @@ public class DirectionalMovement {
     public static DcMotor bl;
     public static DcMotor br;
     public int f = 0;
-    public static int r = 0;
-    public static int sl = 0;
-    public static int sr = 0;
+    public int r = 0;
+    public int sl = 0;
+    public int sr = 0;
 
     public void forward() {
         fl.setTargetPosition(f);
@@ -31,7 +30,7 @@ public class DirectionalMovement {
 
     }
 
-    public static void backward() {
+    public void backward() {
         fl.setTargetPosition(r);
         fr.setTargetPosition(r);
         bl.setTargetPosition(r);
@@ -50,7 +49,7 @@ public class DirectionalMovement {
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public static void strafeLeft() {
+    public void strafeLeft() {
         fl.setTargetPosition(sl);
         fr.setTargetPosition(sl);
         bl.setTargetPosition(sl);
@@ -69,7 +68,7 @@ public class DirectionalMovement {
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public static void strafeRight() {
+    public void strafeRight() {
         fl.setTargetPosition(sr);
         fr.setTargetPosition(sr);
         bl.setTargetPosition(sr);

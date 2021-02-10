@@ -60,55 +60,58 @@ public class OurTeleop extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+            //following is not for competition
             /*TelemetryPacket packet = new TelemetryPacket();
             packet.put("fl", fl.getCurrentPosition());
             packet.put("fr", fr.getCurrentPosition());
             packet.put("br", br.getCurrentPosition());
             packet.put("bl", bl.getCurrentPosition());
-
             dashboard.sendTelemetryPacket(packet);
             telemetry.addData("fl", fl.getCurrentPosition());
             telemetry.addData("fr", fr.getCurrentPosition());
             telemetry.addData("bl", bl.getCurrentPosition());
             telemetry.addData("br", br.getCurrentPosition());
             telemetry.update();*/
-            if (gamepad1.right_bumper) {
+
+            if (gamepad1.right_bumper) {//drive speed multiplier
                 if (m == .5) {
                     m = 1;
                 } else if (m == 1) {
                     m = .5;
                 }
             }
-            if (gamepad1.left_bumper) {
+
+            //intake speed (half/full power)
+            if (gamepad2.left_bumper) {
                 if (p == .5) {
                     p = 1;
                 } else if (p == 1) {
                     p = .5;
                 }
-                if (gamepad1.a) {
-                    if (a == 1) {
-                        a = -1;
-                    } else if (a == -1) {
-                        a = 1;
-                    }
-                }
             }
-            if(gamepad1.x){
-                ring_sander.setPower(1);
+
+            //move rings up ramp
+            if(gamepad2.x){
+                ring_sander.setPower(.5);
+                spinnyThing.setPower(p);
+
             }
-            else if(gamepad1.x && gamepad1.y){
-                ring_sander.setPower(-1);
+            //oh no, the intake mechanism is stuck! reverse all
+            else if(gamepad2.x && gamepad2.y){
+                ring_sander.setPower(-.5);
+                spinnyThing.setPower(-p);
+
             }
-            spinnyThing.setPower(-gamepad1.left_trigger);
-            if (gamepad1.right_trigger > .1) {
-                if (counter < 500) {
+            spinnyThing.setPower(-gamepad2.left_trigger);
+            if (gamepad2.right_trigger > .1) {
+                if (counter < 750) {
                     //  fasterSpinnyThing.setPower(gamepad1.right_trigger); //if you are holding me for too long, I will tell you that you have failed to use correctly --6k rpm yellow jacket
                     telemetry.addLine("You are currently heating my special motor up --definitely not Stephan"); //--rev control hub
                     telemetry.addData("counter says", counter);
                     telemetry.update();
                     counter = counter + 1;
                 }
-                if (counter >= 500) {
+                if (counter >= 750) {
                     //  fasterSpinnyThing.setPower(0); //Don't burn me
                     telemetry.addLine("You are currently heating my special motor up"); //--Rev Control Hub
                     String overheat_notice = "You have been using my poor motor for the last " + counter + "cycles of you holding down the right trigger\n" + "release it now!"; //--Rev Control Hub
@@ -116,10 +119,9 @@ public class OurTeleop extends LinearOpMode {
                     telemetry.update();
                     //telemetry.clear(); //not sure if I should use this one
                 }
-            } else if (gamepad1.right_trigger < .1) {
+            } else if (gamepad2.right_trigger < .1) {
                 counter = 0;
             }
-            //spinnyThing.setPower(p*a);
 
             //drive stuff beneath here
             double drive = gamepad1.right_stick_y;
