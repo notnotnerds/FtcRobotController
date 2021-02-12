@@ -1,16 +1,20 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+
+import org.opencv.core.Mat;
+
 /*
  ***************************************This code is the property of FTC team 12051 NotNotNerds***************************************
  **********************We do not guarantee that your robot will function correctly after you have used this code**********************
  **************************************************Please use some other team's code**************************************************
  */
 public class DirectionalMovement {
-    public static DcMotor fl;
-    public static DcMotor fr;
-    public static DcMotor bl;
-    public static DcMotor br;
+    public static DcMotorEx fl;
+    public static DcMotorEx fr;
+    public static DcMotorEx bl;
+    public static DcMotorEx br;
     public int f = 0;
     public int r = 0;
     public int sl = 0;
@@ -21,13 +25,15 @@ public class DirectionalMovement {
         fr.setTargetPosition(f);
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        fl.setPower(-.5);
-        fr.setPower(-.5);
-        bl.setPower(-.5);
-        br.setPower(-.5);
+        fl.setVelocity(100);
+        fr.setVelocity(100);
+        bl.setVelocity(100);
+        br.setVelocity(100);
         fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+while(Math.abs(fl.getCurrentPosition())< Math.abs(f) && (Math.abs(fr.getCurrentPosition())< Math.abs(f))) {
+    //wait to get to new location
+        }
     }
 
     public void backward() {
@@ -39,14 +45,17 @@ public class DirectionalMovement {
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        fl.setPower(-.5);
-        fr.setPower(-.5);
+        fl.setVelocity(-100);
+        fr.setVelocity(-100);
         bl.setPower(-.5);
         br.setPower(-.5);
         fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while(Math.abs(fl.getCurrentPosition())< Math.abs(r) && (Math.abs(fr.getCurrentPosition())< Math.abs(r))) {
+            //wait to get to new location
+        }
     }
 
     public void strafeLeft() {
@@ -58,14 +67,17 @@ public class DirectionalMovement {
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        fl.setPower(-.5);
-        fr.setPower(.5);
-        bl.setPower(.5);
-        br.setPower(-.5);
+        fl.setVelocity(-100);
+        fr.setVelocity(100);
+        bl.setVelocity(100);
+        br.setVelocity(-100);
         fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while(Math.abs(fl.getCurrentPosition())< Math.abs(sl) && (Math.abs(fr.getCurrentPosition())< Math.abs(sl))) {
+            //wait to get to new location
+        }
     }
 
     public void strafeRight() {
@@ -77,13 +89,16 @@ public class DirectionalMovement {
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        fl.setPower(.5);
-        fr.setPower(-.5);
-        bl.setPower(-.5);
-        br.setPower(.5);
+        fl.setVelocity(100);
+        fr.setVelocity(-100);
+        bl.setVelocity(-100);
+        br.setVelocity(100);
         fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while(Math.abs(fl.getCurrentPosition())< Math.abs(sr) && (Math.abs(fr.getCurrentPosition())< Math.abs(sr))) {
+            //wait to get to new location
+        }
     }
 }
