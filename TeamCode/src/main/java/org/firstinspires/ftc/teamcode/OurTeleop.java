@@ -59,9 +59,10 @@ public class OurTeleop extends LinearOpMode {
         //FtcDashboard dashboard = FtcDashboard.getInstance();
 
         double m = 1; //Danny's favorite
-        double p = .5; //intake multiplier, not used
+        double p = 1; //intake multiplier, not used
         double a = 1; //reverse, not used
         double counter = 0; //for fasterSpinnyThing
+        double z = 1;
 
         waitForStart();
 
@@ -81,10 +82,10 @@ public class OurTeleop extends LinearOpMode {
 
 //************** intake system control ***************
             if (gamepad2.a) {//intake speed (half/full power)
-                if (p == .5) {
-                    p = 1;
+                if (p == 1) {
+                    p = .8;
                 } else {
-                    p = .5;
+                    p = 1;
                 }
             }
             if (gamepad2.b) { //intake reverse
@@ -97,8 +98,8 @@ public class OurTeleop extends LinearOpMode {
 
             //move rings up ramp
             if(gamepad2.x){
-                ring_sander.setPower(-1);
-                spinnyThing.setPower(1);
+                ring_sander.setPower(p*-1);
+                spinnyThing.setPower(p*1);
             }
             else{
                 ring_sander.setPower(-gamepad2.left_stick_y);
@@ -112,14 +113,15 @@ public class OurTeleop extends LinearOpMode {
                 ring_kicker.setPosition(.6);
             }
 //**************** shooter control *******************
-            /*if (gamepad2.right_trigger > .1) {
-                fasterSpinnyThing.setVelocity(3500);
+            if (gamepad2.right_trigger > .1) {
+                fasterSpinnyThing.setVelocity(-3000);
             }
             else{
                 fasterSpinnyThing.setVelocity(0);
-            }*/
+            }
+            /*if(gamepad2.right_trigger > .1) {
                 if (counter < 2000) {
-                    fasterSpinnyThing.setVelocity(3000); //if you are holding me for too long, I will tell you that you have failed to use me correctly --6k rpm yellow jacket
+                    fasterSpinnyThing.setVelocity(5000); //if you are holding me for too long, I will tell you that you have failed to use me correctly --6k rpm yellow jacket
                     telemetry.addLine("You are currently heating my special motor up --definitely not Stephan"); //--rev control hub
                     telemetry.addData("counter says", counter);
                     telemetry.update();
@@ -133,14 +135,21 @@ public class OurTeleop extends LinearOpMode {
                     telemetry.update();
                     //telemetry.clear(); //not sure if I should use this one
                 }
+            }
             else if(gamepad2.right_trigger < .1) {
                 counter = 0;
+                fasterSpinnyThing.setVelocity(0);
+            }*/
+            if(gamepad2.right_bumper){
+                fasterSpinnyThing.setVelocity(-3000);
+            }
+            else{
                 fasterSpinnyThing.setVelocity(0);
             }
 
 //**************** Wobble arm controls *******************
             if(gamepad2.dpad_up){//flip arm in
-                grabNFlip.setPosition(0);
+                grabNFlip.setPosition(.2);
             }
             if(gamepad2.dpad_down){//flip arm out
                 grabNFlip.setPosition(1);
@@ -161,14 +170,22 @@ public class OurTeleop extends LinearOpMode {
                     m = .5;
                 }
             }
+            if(gamepad1.y){
+                if(z == 1){
+                    z = -1;
+                }
+                else{
+                    z = 1;
+                }
+            }
             double drive = gamepad1.right_stick_y;
             double strafe = gamepad1.right_stick_x;
             double rotate = gamepad1.left_stick_x;
 
-            bl.setPower(-m * (-drive + rotate - strafe));
-            br.setPower(-m * (-drive - rotate + strafe));
-            fr.setPower(-m * (-drive + rotate + strafe));
-            fl.setPower(-m * (-drive - rotate - strafe));
+            bl.setPower(z * m * (-drive + rotate - strafe));
+            br.setPower(z * m * (-drive - rotate + strafe));
+            fr.setPower(z * m * (-drive + rotate + strafe));
+            fl.setPower(z * m * (-drive - rotate - strafe));
         }
     }
 
