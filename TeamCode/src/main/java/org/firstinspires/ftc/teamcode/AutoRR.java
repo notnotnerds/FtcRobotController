@@ -52,10 +52,7 @@ public class AutoRR extends LinearOpMode {
     ExpansionHubEx expansionHub;
     public Servo grabber; //who said we needed to give them normal names?
     public Servo grabNFlip; //seriously, you thought I would name this better?
-    int f = 0;
-    int r = 0;
-    int sl = 0;
-    int sr = 0;
+
     @Override
     public void runOpMode() {
         telemetry.addLine("Robot has been turned on. Run for your life!");
@@ -66,54 +63,49 @@ public class AutoRR extends LinearOpMode {
         fr = hardwareMap.get(DcMotorEx.class, "fr");
         bl = hardwareMap.get(DcMotorEx.class, "bl");
         br = hardwareMap.get(DcMotorEx.class, "br");
-        spinnyThing = hardwareMap.dcMotor.get("intake");
+        spinnyThing =hardwareMap.dcMotor.get("intake");
         //wobble_lift=hardwareMap.dcMotor.get("lift");
-        fasterSpinnyThing = hardwareMap.get(DcMotorEx.class, "shooter");
-        fasterSpinnyThing.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        fl.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        fr.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        bl.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        br.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        grabber = hardwareMap.servo.get("grabber");
-        grabNFlip = hardwareMap.servo.get("flipper");
-        ring_sander = hardwareMap.dcMotor.get("ring_lift");
-        ring_kicker = hardwareMap.servo.get("ring_push");
-        fl.setDirection(DcMotorEx.Direction.REVERSE);
-        bl.setDirection(DcMotorEx.Direction.REVERSE);
-        spinnyThing.setDirection(DcMotorEx.Direction.REVERSE);
+        fasterSpinnyThing=hardwareMap.get(DcMotorEx.class, "shooter");
+        fasterSpinnyThing.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        grabber=hardwareMap.servo.get("grabber");
+        grabNFlip=hardwareMap.servo.get("flipper");
+        ring_sander=hardwareMap.dcMotor.get("ring_lift");
+        ring_kicker=hardwareMap.servo.get("ring_push");
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        bl.setDirection(DcMotor.Direction.REVERSE);
+        spinnyThing.setDirection(DcMotor.Direction.REVERSE);
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         pipeline = new CameraEx.SkystoneDeterminationPipeline();
         webcam.setPipeline(pipeline);
+
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
                 webcam.startStreaming(640, 480, OpenCvCameraRotation.UPSIDE_DOWN); //keep it at 480p
             }
         });
-
-        ring_kicker.setPosition(.6);//set launch servo to ready position
-        grabNFlip.setPosition(.95);//set wobble servo to usage position
-        grabber.setPosition(0);//set wobble grabber to hold wobble goal
+        //we are initialized and waiting for start
+        expansionHub.setLedColor(100, 100, 0);
+        sleep(200);
+        expansionHub.setLedColor(100, 0, 100);
+        sleep(200);
+        expansionHub.setLedColor(0, 100, 100);
+        sleep(200);
+        expansionHub.setLedColor(100, 100, 100);
+        sleep(200);
+        expansionHub.setLedColor(200, 200, 200);
+        sleep(200);
+        expansionHub.setLedColor(255, 0, 0);
+        sleep(200);
         telemetry.addLine("Robot can now start the game");
         waitForStart();
-        f=1000;
-        forward();
-        sleep(1000);
-        fasterSpinnyThing.setVelocity(2500);
-        sleep(500);
-        ring_kicker.setPosition(.8);
-        sleep(500);
-        ring_kicker.setPosition(.6);
-        sleep(100);
-        ring_kicker.setPosition(.8);
-        sleep(500);
-        ring_kicker.setPosition(.6);
-        fasterSpinnyThing.setVelocity(0);
-        f=500;
-        forward();
 //while loop only needed to actively count rings... Not needed for running auto
-      /*  while (opModeIsActive()) {
+        while (opModeIsActive()) {
             if (CameraEx.ringCount == 4) {//4 rings
                 RedZoneA();
             } else if (CameraEx.ringCount == 1) {//1 ring
@@ -125,194 +117,60 @@ public class AutoRR extends LinearOpMode {
             telemetry.update();
 
         }
-        if (CameraEx.ringCount == 4) {//4 rings
-            telemetry.addLine("4 rings");
-            RedZoneA();
-        } else if (CameraEx.ringCount == 1) {//1 ring
-            RedZoneB();
-        } else {//0 rings
-            RedZoneC();
-        }
     }
 
     public void RedZoneA() {
         //make it to the target zone A
-        f = 1000;
-        forward();
+        //led to remove delay for comp
+        expansionHub.setLedColor(255, 0, 0);
+        sleep(250);
+        expansionHub.setLedColor(0, 0, 0);
+        sleep(250);
+        DirectionalMovement.f = 1000;
+        DirectionalMovement.forward();
         //shoot whatever is loaded into robot
-        fasterSpinnyThing.setVelocity(3000);
-        sleep(200);
-        ring_kicker.setPosition(.8);
-        sleep(500);
-        ring_kicker.setPosition(.6);
-        ring_kicker.setPosition(.8);
-        sleep(500);
-        ring_kicker.setPosition(.6);
-        fasterSpinnyThing.setVelocity(0);
-        ring_sander.setPower(-1);
-        spinnyThing.setPower(1);
-        sleep(500);
-        fasterSpinnyThing.setVelocity(3000);
-        ring_kicker.setPosition(.8);
-        sleep(500);
-        fasterSpinnyThing.setVelocity(0);
-        ring_kicker.setPosition(.6);
-        sl=2000;
-        strafeLeft();
-        f=1000;
-        forward();
+        DirectionalMovement.sl=500;
+        DirectionalMovement.strafeLeft();
+        DirectionalMovement.f=500;
+        DirectionalMovement.forward();
         //release wobble
-        r=1000;
-        backward();
+        DirectionalMovement.r=1000;
+        DirectionalMovement.backward();
     }
 
     public void RedZoneB() {
         //make it to the target zone B
-        f = 1000;
-        forward();
+        //led to remove delay for comp
+        expansionHub.setLedColor(0, 255, 0);
+        sleep(250);
+        expansionHub.setLedColor(0, 0, 0);
+        sleep(250);
+        DirectionalMovement.f = 1000;
+        DirectionalMovement.forward();
         //shoot whatever is preloaded into robot
-        fasterSpinnyThing.setVelocity(3000);
-        sleep(200);
-        ring_kicker.setPosition(.8);
-        sleep(500);
-        ring_kicker.setPosition(.6);
-        ring_kicker.setPosition(.8);
-        sleep(500);
-        ring_kicker.setPosition(.6);
-        fasterSpinnyThing.setVelocity(0);/*
-        ring_sander.setPower(-1);
-        spinnyThing.setPower(1);
-        sleep(500);
-        fasterSpinnyThing.setVelocity(3000);
-        ring_kicker.setPosition(.8);
-        sleep(500);
-        fasterSpinnyThing.setVelocity(0);
-        ring_kicker.setPosition(.6);
         //collect the one ring
-        f=1000;
-        forward();
-
+        DirectionalMovement.f=1000;
+        DirectionalMovement.forward();
         //drop wobble goal
     }
 
     public void RedZoneC() {
         //make it to the target zone C
-        f = 1000;
-        forward();
-        fasterSpinnyThing.setVelocity(3000);
-        sleep(100);
-        ring_kicker.setPosition(.8);
-        sleep(500);
-        ring_kicker.setPosition(.6);
-        ring_kicker.setPosition(.8);
-        sleep(500);
-        ring_kicker.setPosition(.6);
-        fasterSpinnyThing.setVelocity(0);
-        ring_sander.setPower(-1);
-        spinnyThing.setPower(1);
-        sleep(500);
-        fasterSpinnyThing.setVelocity(3000);
-        ring_kicker.setPosition(.8);
-        sleep(500);
-        fasterSpinnyThing.setVelocity(0);
-        ring_kicker.setPosition(.6);
+        //led to remove delay for comp
+        expansionHub.setLedColor(0, 0, 255);
+        sleep(250);
+        expansionHub.setLedColor(0, 0, 0);
+        sleep(250);
+        DirectionalMovement.f = 1000;
+        DirectionalMovement.forward();
         //shoot all preloaded rings
-        sl=500;
-        strafeLeft();
-        f=1000;
-        forward();
+        DirectionalMovement.sl=500;
+        DirectionalMovement.strafeLeft();
+        DirectionalMovement.f=1000;
+        DirectionalMovement.forward();
         //drop wobble goal
-        r=1000;
-        backward();
+        DirectionalMovement.r=1000;
+        DirectionalMovement.backward();
     }
-    */
-
-    }
-    public void forward() {
-        fl.setTargetPosition(f);
-        fr.setTargetPosition(f);
-        br.setTargetPosition(f);
-        bl.setTargetPosition(f);
-        fl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        fr.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        fl.setVelocity(1000);
-        fr.setVelocity(1000);
-        bl.setVelocity(1000);
-        br.setVelocity(1000);
-        fl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        while(Math.abs(fl.getCurrentPosition())< Math.abs(sl) && Math.abs(fr.getCurrentPosition())< Math.abs(sl) && Math.abs(bl.getCurrentPosition())< Math.abs(sl) && Math.abs(br.getCurrentPosition())< Math.abs(sl)) {
-            //wait to get to new location
-        }
-    }
-
-    public void backward() {
-        fl.setTargetPosition(-r);
-        fr.setTargetPosition(-r);
-        bl.setTargetPosition(-r);
-        br.setTargetPosition(-r);
-        fl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        fr.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        bl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        br.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        fl.setVelocity(-1000);
-        fr.setVelocity(-1000);
-        bl.setVelocity(-1000);
-        br.setVelocity(-1000);
-        fl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        while(Math.abs(fl.getCurrentPosition())< Math.abs(sl) && Math.abs(fr.getCurrentPosition())< Math.abs(sl) && Math.abs(bl.getCurrentPosition())< Math.abs(sl) && Math.abs(br.getCurrentPosition())< Math.abs(sl)) {
-            //wait to get to new location
-        }
-    }
-
-    public void strafeLeft() {
-        fl.setTargetPosition(-sl);
-        fr.setTargetPosition(sl);
-        bl.setTargetPosition(sl);
-        br.setTargetPosition(-sl);
-        fl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        fr.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        bl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        br.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        fl.setVelocity(-1000);
-        fr.setVelocity(1000);
-        bl.setVelocity(1000);
-        br.setVelocity(-1000);
-        fl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        while(Math.abs(fl.getCurrentPosition())< Math.abs(sl) && Math.abs(fr.getCurrentPosition())< Math.abs(sl) && Math.abs(bl.getCurrentPosition())< Math.abs(sl) && Math.abs(br.getCurrentPosition())< Math.abs(sl)) {
-            //wait to get to new location
-        }
-    }
-
-    public void strafeRight() {
-        fl.setTargetPosition(sr);
-        fr.setTargetPosition(-sr);
-        bl.setTargetPosition(-sr);
-        br.setTargetPosition(sr);
-        fl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        fr.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        bl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        br.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        fl.setVelocity(1000);
-        fr.setVelocity(-1000);
-        bl.setVelocity(-1000);
-        br.setVelocity(1000);
-        fl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        while(Math.abs(fl.getCurrentPosition())< Math.abs(sl) && Math.abs(fr.getCurrentPosition())< Math.abs(sl) && Math.abs(bl.getCurrentPosition())< Math.abs(sl) && Math.abs(br.getCurrentPosition())< Math.abs(sl)) {
-            //wait to get to new location
-        }
-    }
-
 
 }

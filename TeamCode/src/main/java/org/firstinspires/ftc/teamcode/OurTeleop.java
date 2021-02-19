@@ -48,21 +48,20 @@ public class OurTeleop extends LinearOpMode {
         spinnyThing =hardwareMap.dcMotor.get("intake");
         //wobble_lift=hardwareMap.dcMotor.get("lift");
         fasterSpinnyThing=hardwareMap.get(DcMotorEx.class, "shooter");
-        fasterSpinnyThing.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        fasterSpinnyThing.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         grabber=hardwareMap.servo.get("grabber");
         grabNFlip=hardwareMap.servo.get("flipper");
         ring_sander=hardwareMap.dcMotor.get("ring_lift");
         ring_kicker=hardwareMap.servo.get("ring_push");
-        fl.setDirection(DcMotorEx.Direction.REVERSE);
-        bl.setDirection(DcMotorEx.Direction.REVERSE);
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        bl.setDirection(DcMotor.Direction.REVERSE);
         spinnyThing.setDirection(DcMotor.Direction.REVERSE);
         //FtcDashboard dashboard = FtcDashboard.getInstance();
 
-        double m = 1; //Danny's favorite
-        double p = 1; //intake multiplier, not used
-        double a = 1; //reverse, not used
+        double m = .5; //Danny's favorite
+        double p = .5; //intake multiplier
+        double a = 1; //reverse
         double counter = 0; //for fasterSpinnyThing
-        double z = 1;
 
         waitForStart();
 
@@ -82,10 +81,10 @@ public class OurTeleop extends LinearOpMode {
 
 //************** intake system control ***************
             if (gamepad2.a) {//intake speed (half/full power)
-                if (p == 1) {
-                    p = .8;
-                } else {
+                if (p == .5) {
                     p = 1;
+                } else {
+                    p = .5;
                 }
             }
             if (gamepad2.b) { //intake reverse
@@ -98,36 +97,30 @@ public class OurTeleop extends LinearOpMode {
 
             //move rings up ramp
             if(gamepad2.x){
-                ring_sander.setPower(p*-1);
-                spinnyThing.setPower(p*1);
+                ring_sander.setPower(p*a);
+                spinnyThing.setPower(p*a);
             }
             else{
                 ring_sander.setPower(-gamepad2.left_stick_y);
                 spinnyThing.setPower(-gamepad2.right_stick_y);
             }
 //*************** ring booster servo control **********
-            if(gamepad2.left_bumper){
+            if(gamepad2.right_bumper){
                 ring_kicker.setPosition(1);
             }
             else{
-                ring_kicker.setPosition(.6);
+                ring_kicker.setPosition(.9);
             }
 //**************** shooter control *******************
             if (gamepad2.right_trigger > .1) {
-                fasterSpinnyThing.setVelocity(-3000);
-            }
-            else{
-                fasterSpinnyThing.setVelocity(0);
-            }
-            /*if(gamepad2.right_trigger > .1) {
-                if (counter < 2000) {
-                    fasterSpinnyThing.setVelocity(5000); //if you are holding me for too long, I will tell you that you have failed to use me correctly --6k rpm yellow jacket
+                if (counter < 750) {
+                    fasterSpinnyThing.setVelocity(1000); //if you are holding me for too long, I will tell you that you have failed to use me correctly --6k rpm yellow jacket
                     telemetry.addLine("You are currently heating my special motor up --definitely not Stephan"); //--rev control hub
                     telemetry.addData("counter says", counter);
                     telemetry.update();
                     counter = counter + 1;
                 }
-                if (counter >= 2000) {
+                if (counter >= 750) {
                     fasterSpinnyThing.setPower(0); //Don't burn me
                     telemetry.addLine("You are currently heating my special motor up"); //--Rev Control Hub
                     String overheat_notice = "You have been using my poor motor for the last " + counter + "cycles of you holding down the right trigger\n" + "release it now!"; //--Rev Control Hub
@@ -135,21 +128,13 @@ public class OurTeleop extends LinearOpMode {
                     telemetry.update();
                     //telemetry.clear(); //not sure if I should use this one
                 }
-            }
-            else if(gamepad2.right_trigger < .1) {
+            } else if (gamepad2.right_trigger < .1) {
                 counter = 0;
-                fasterSpinnyThing.setVelocity(0);
-            }*/
-            if(gamepad2.right_bumper){
-                fasterSpinnyThing.setVelocity(-3000);
-            }
-            else{
-                fasterSpinnyThing.setVelocity(0);
             }
 
 //**************** Wobble arm controls *******************
             if(gamepad2.dpad_up){//flip arm in
-                grabNFlip.setPosition(.2);
+                grabNFlip.setPosition(0);
             }
             if(gamepad2.dpad_down){//flip arm out
                 grabNFlip.setPosition(1);
@@ -170,22 +155,14 @@ public class OurTeleop extends LinearOpMode {
                     m = .5;
                 }
             }
-            if(gamepad1.y){
-                if(z == 1){
-                    z = -1;
-                }
-                else{
-                    z = 1;
-                }
-            }
             double drive = gamepad1.right_stick_y;
             double strafe = gamepad1.right_stick_x;
             double rotate = gamepad1.left_stick_x;
 
-            bl.setPower(z * m * (-drive + rotate - strafe));
-            br.setPower(z * m * (-drive - rotate + strafe));
-            fr.setPower(z * m * (-drive + rotate + strafe));
-            fl.setPower(z * m * (-drive - rotate - strafe));
+            bl.setPower(m * (-drive + rotate - strafe));
+            br.setPower(m * (-drive - rotate + strafe));
+            fr.setPower(m * (-drive + rotate + strafe));
+            fl.setPower(m * (-drive - rotate - strafe));
         }
     }
 
