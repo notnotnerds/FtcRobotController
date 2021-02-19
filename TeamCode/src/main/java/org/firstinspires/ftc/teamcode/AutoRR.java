@@ -91,33 +91,27 @@ public class AutoRR extends LinearOpMode {
                 webcam.startStreaming(640, 480, OpenCvCameraRotation.UPSIDE_DOWN); //keep it at 480p
             }
         });
+
         ring_kicker.setPosition(.6);//set launch servo to ready position
         grabNFlip.setPosition(.95);//set wobble servo to usage position
-        grabber.setPosition(.5);//set wobble grabber to hold wobble goal
+        grabber.setPosition(0);//set wobble grabber to hold wobble goal
         telemetry.addLine("Robot can now start the game");
         waitForStart();
-
-
-       //grabNFlip.setPosition(.05);//set wobble servo to usage position
-        //grabber.setPosition(0);//set wobble grabber to hold wobble goal
-        f = 1500;
+        f=1000;
         forward();
         sleep(1000);
-        fasterSpinnyThing.setVelocity(-3000);
+        fasterSpinnyThing.setVelocity(2500);
         sleep(500);
         ring_kicker.setPosition(.8);
         sleep(500);
         ring_kicker.setPosition(.6);
         sleep(100);
-        ring_sander.setPower(-1);
-        spinnyThing.setPower(1);
         ring_kicker.setPosition(.8);
         sleep(500);
         ring_kicker.setPosition(.6);
-        ring_sander.setPower(0);
-        spinnyThing.setPower(0);
         fasterSpinnyThing.setVelocity(0);
-
+        f=500;
+        forward();
 //while loop only needed to actively count rings... Not needed for running auto
       /*  while (opModeIsActive()) {
             if (CameraEx.ringCount == 4) {//4 rings
@@ -241,8 +235,6 @@ public class AutoRR extends LinearOpMode {
         bl.setTargetPosition(f);
         fl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        bl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        br.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         fl.setVelocity(1000);
         fr.setVelocity(1000);
         bl.setVelocity(1000);
@@ -251,16 +243,16 @@ public class AutoRR extends LinearOpMode {
         fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        while(Math.abs(fl.getCurrentPosition())< Math.abs(f) && (Math.abs(fr.getCurrentPosition())< Math.abs(f)) && Math.abs(bl.getCurrentPosition())< Math.abs(f) && (Math.abs(br.getCurrentPosition())< Math.abs(f))) {
+        while(Math.abs(fl.getCurrentPosition())< Math.abs(sl) && Math.abs(fr.getCurrentPosition())< Math.abs(sl) && Math.abs(bl.getCurrentPosition())< Math.abs(sl) && Math.abs(br.getCurrentPosition())< Math.abs(sl)) {
             //wait to get to new location
         }
     }
 
     public void backward() {
-        fl.setTargetPosition(r);
-        fr.setTargetPosition(r);
-        bl.setTargetPosition(r);
-        br.setTargetPosition(r);
+        fl.setTargetPosition(-r);
+        fr.setTargetPosition(-r);
+        bl.setTargetPosition(-r);
+        br.setTargetPosition(-r);
         fl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         bl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -273,16 +265,16 @@ public class AutoRR extends LinearOpMode {
         fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        while(Math.abs(fl.getCurrentPosition())< Math.abs(r) && (Math.abs(fr.getCurrentPosition())< Math.abs(r)) && Math.abs(bl.getCurrentPosition())< Math.abs(r) && (Math.abs(br.getCurrentPosition())< Math.abs(r))) {
+        while(Math.abs(fl.getCurrentPosition())< Math.abs(sl) && Math.abs(fr.getCurrentPosition())< Math.abs(sl) && Math.abs(bl.getCurrentPosition())< Math.abs(sl) && Math.abs(br.getCurrentPosition())< Math.abs(sl)) {
             //wait to get to new location
         }
     }
 
     public void strafeLeft() {
-        fl.setTargetPosition(sl);
+        fl.setTargetPosition(-sl);
         fr.setTargetPosition(sl);
         bl.setTargetPosition(sl);
-        br.setTargetPosition(sl);
+        br.setTargetPosition(-sl);
         fl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         bl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -295,15 +287,15 @@ public class AutoRR extends LinearOpMode {
         fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        while(Math.abs(fl.getCurrentPosition())< Math.abs(sl) && (Math.abs(fr.getCurrentPosition())< Math.abs(sl)) && Math.abs(bl.getCurrentPosition())< Math.abs(sl) && (Math.abs(br.getCurrentPosition())< Math.abs(sl))) {
+        while(Math.abs(fl.getCurrentPosition())< Math.abs(sl) && Math.abs(fr.getCurrentPosition())< Math.abs(sl) && Math.abs(bl.getCurrentPosition())< Math.abs(sl) && Math.abs(br.getCurrentPosition())< Math.abs(sl)) {
             //wait to get to new location
         }
     }
 
     public void strafeRight() {
         fl.setTargetPosition(sr);
-        fr.setTargetPosition(sr);
-        bl.setTargetPosition(sr);
+        fr.setTargetPosition(-sr);
+        bl.setTargetPosition(-sr);
         br.setTargetPosition(sr);
         fl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -317,7 +309,7 @@ public class AutoRR extends LinearOpMode {
         fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        while(Math.abs(fl.getCurrentPosition())< Math.abs(sr) && (Math.abs(fr.getCurrentPosition())< Math.abs(sr)) && Math.abs(bl.getCurrentPosition())< Math.abs(sr) && (Math.abs(br.getCurrentPosition())< Math.abs(sr))) {
+        while(Math.abs(fl.getCurrentPosition())< Math.abs(sl) && Math.abs(fr.getCurrentPosition())< Math.abs(sl) && Math.abs(bl.getCurrentPosition())< Math.abs(sl) && Math.abs(br.getCurrentPosition())< Math.abs(sl)) {
             //wait to get to new location
         }
     }
