@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -23,6 +24,7 @@ import org.openftc.revextensions2.ExpansionHubEx;
  **********************We do not guarantee that your robot will function correctly after you have used this code**********************
  **************************************************Please use some other team's code**************************************************
  */
+@Disabled
 @Autonomous(name = "Blue side right", group = "Autonomous stuff")
 public class AutoBR extends LinearOpMode {
     /* where is the starting position (depending on which line it's starting at) (repeat until certain amount of time idk)
