@@ -44,6 +44,12 @@ public class practiceCoding extends LinearOpMode {
             bl.setPower(1);
             fr.setPower(-1);
             br.setPower(-1);
+
+            sleep(1000);//do nothign
+            fl.setPower(1);
+            bl.setPower(1);
+            fr.setPower(-1);
+            br.setPower(-1);
         }
     }
 }
