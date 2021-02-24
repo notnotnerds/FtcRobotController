@@ -97,8 +97,8 @@ public class OurTeleop extends LinearOpMode {
 
             //move rings up ramp
             if(gamepad2.x){
-                ring_sander.setPower(p*a);
-                spinnyThing.setPower(p*a);
+                ring_sander.setPower(p * a);
+                spinnyThing.setPower(p * a);
             }
             else{
                 ring_sander.setPower(-gamepad2.left_stick_y);
@@ -113,14 +113,14 @@ public class OurTeleop extends LinearOpMode {
             }
 //**************** shooter control *******************
             if (gamepad2.right_trigger > .1) {
-                if (counter < 750) {
+                if (counter < 2000) {
                     fasterSpinnyThing.setVelocity(1000); //if you are holding me for too long, I will tell you that you have failed to use me correctly --6k rpm yellow jacket
                     telemetry.addLine("You are currently heating my special motor up --definitely not Stephan"); //--rev control hub
                     telemetry.addData("counter says", counter);
                     telemetry.update();
                     counter = counter + 1;
                 }
-                if (counter >= 750) {
+                if (counter >= 2000) {
                     fasterSpinnyThing.setPower(0); //Don't burn me
                     telemetry.addLine("You are currently heating my special motor up"); //--Rev Control Hub
                     String overheat_notice = "You have been using my poor motor for the last " + counter + "cycles of you holding down the right trigger\n" + "release it now!"; //--Rev Control Hub
@@ -130,18 +130,19 @@ public class OurTeleop extends LinearOpMode {
                 }
             } else if (gamepad2.right_trigger < .1) {
                 counter = 0;
+                fasterSpinnyThing.setVelocity(0);
             }
 
 //**************** Wobble arm controls *******************
             if(gamepad2.dpad_up){//flip arm in
-                grabNFlip.setPosition(0);
+                grabNFlip.setPosition(.25);
             }
             if(gamepad2.dpad_down){//flip arm out
                 grabNFlip.setPosition(1);
             }
 
             if(gamepad2.dpad_left){//grab wobble
-                grabber.setPosition(.5);
+                grabber.setPosition(.4);
             }
             if (gamepad2.dpad_right){//release wobble
                 grabber.setPosition(0);

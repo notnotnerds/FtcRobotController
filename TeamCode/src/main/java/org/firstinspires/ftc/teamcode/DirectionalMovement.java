@@ -11,12 +11,12 @@ import org.opencv.core.Mat;
  **************************************************Please use some other team's code**************************************************
  */
 public class DirectionalMovement {
-    public static DcMotorEx fl;
-    public static DcMotorEx fr;
-    public static DcMotorEx bl;
-    public static DcMotorEx br;
+    public  DcMotorEx fl;
+    public  DcMotorEx fr;
+    public  DcMotorEx bl;
+    public  DcMotorEx br;
     public int f = 0;
-    public int r = 0;
+    public int b = 0;
     public int sl = 0;
     public int sr = 0;
 
@@ -31,29 +31,29 @@ public class DirectionalMovement {
         br.setVelocity(100);
         fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-while(Math.abs(fl.getCurrentPosition())< Math.abs(f) && (Math.abs(fr.getCurrentPosition())< Math.abs(f))) {
+    while(Math.abs(fl.getCurrentPosition())< Math.abs(f) && (Math.abs(fr.getCurrentPosition())< Math.abs(f))) {
     //wait to get to new location
         }
     }
 
     public void backward() {
-        fl.setTargetPosition(r);
-        fr.setTargetPosition(r);
-        bl.setTargetPosition(r);
-        br.setTargetPosition(r);
+        fl.setTargetPosition(b);
+        fr.setTargetPosition(b);
+        bl.setTargetPosition(b);
+        br.setTargetPosition(b);
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fl.setVelocity(-100);
         fr.setVelocity(-100);
-        bl.setPower(-.5);
-        br.setPower(-.5);
+        bl.setVelocity(-100);
+        br.setVelocity(-100);
         fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while(Math.abs(fl.getCurrentPosition())< Math.abs(r) && (Math.abs(fr.getCurrentPosition())< Math.abs(r))) {
+        while(Math.abs(fl.getCurrentPosition())< Math.abs(b) && (Math.abs(fr.getCurrentPosition())< Math.abs(b))) {
             //wait to get to new location
         }
     }
