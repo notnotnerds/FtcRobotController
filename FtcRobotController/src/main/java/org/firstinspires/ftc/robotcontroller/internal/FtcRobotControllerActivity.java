@@ -63,8 +63,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-//import com.google.blocks.ftcrobotcontroller.ProgrammingWebHandlers;
-//import com.google.blocks.ftcrobotcontroller.runtime.BlocksOpMode;
+import com.google.blocks.ftcrobotcontroller.ProgrammingWebHandlers;
+import com.google.blocks.ftcrobotcontroller.runtime.BlocksOpMode;
 import com.qualcomm.ftccommon.ClassManagerFactory;
 import com.qualcomm.ftccommon.FtcAboutActivity;
 import com.qualcomm.ftccommon.FtcEventLoop;
@@ -102,8 +102,8 @@ import com.qualcomm.robotcore.wifi.NetworkType;
 import org.firstinspires.ftc.ftccommon.external.SoundPlayingRobotMonitor;
 import org.firstinspires.ftc.ftccommon.internal.FtcRobotControllerWatchdogService;
 import org.firstinspires.ftc.ftccommon.internal.ProgramAndManageActivity;
-// org.firstinspires.ftc.onbotjava.OnBotJavaHelperImpl;
-//import org.firstinspires.ftc.onbotjava.OnBotJavaProgrammingMode;
+import org.firstinspires.ftc.onbotjava.OnBotJavaHelperImpl;
+import org.firstinspires.ftc.onbotjava.OnBotJavaProgrammingMode;
 import org.firstinspires.ftc.robotcore.external.navigation.MotionDetection;
 import org.firstinspires.ftc.robotcore.internal.hardware.android.AndroidBoard;
 import org.firstinspires.ftc.robotcore.internal.network.DeviceNameManagerFactory;
@@ -319,7 +319,7 @@ public class FtcRobotControllerActivity extends Activity
 
     updateMonitorLayout(getResources().getConfiguration());
 
-    //BlocksOpMode.setActivityAndWebView(this, (WebView) findViewById(R.id.webViewBlocksRuntime));
+    BlocksOpMode.setActivityAndWebView(this, (WebView) findViewById(R.id.webViewBlocksRuntime));
 
     /*
      * Paranoia as the ClassManagerFactory requires EXTERNAL_STORAGE permissions
@@ -328,7 +328,7 @@ public class FtcRobotControllerActivity extends Activity
      * have permissions. So...
      */
     if (permissionsValidated) {
-      //ClassManager.getInstance().setOnBotJavaClassHelper(new OnBotJavaHelperImpl());
+      ClassManager.getInstance().setOnBotJavaClassHelper(new OnBotJavaHelperImpl());
       ClassManagerFactory.registerFilters();
       ClassManagerFactory.processAllClasses();
     }
@@ -353,10 +353,10 @@ public class FtcRobotControllerActivity extends Activity
     dimmer = new Dimmer(this);
     dimmer.longBright();
 
-/*    programmingModeManager = new ProgrammingModeManager();
+    programmingModeManager = new ProgrammingModeManager();
     programmingModeManager.register(new ProgrammingWebHandlers());
     programmingModeManager.register(new OnBotJavaProgrammingMode());
-*/
+
     updateUI = createUpdateUI();
     callback = createUICallback(updateUI);
 
@@ -478,7 +478,7 @@ public class FtcRobotControllerActivity extends Activity
     RobotLog.logBuildConfig(com.qualcomm.robotcore.BuildConfig.class);
     RobotLog.logBuildConfig(com.qualcomm.hardware.BuildConfig.class);
     RobotLog.logBuildConfig(com.qualcomm.ftccommon.BuildConfig.class);
-    //RobotLog.logBuildConfig(com.google.blocks.BuildConfig.class);
+    RobotLog.logBuildConfig(com.google.blocks.BuildConfig.class);
     RobotLog.logBuildConfig(org.firstinspires.inspection.BuildConfig.class);
   }
 

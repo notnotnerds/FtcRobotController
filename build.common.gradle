@@ -24,7 +24,7 @@ android {
     compileSdkVersion 29
 
     signingConfigs {
-        release {
+      release {
             def apkStoreFile = System.getenv("APK_SIGNING_STORE_FILE")
             if (apkStoreFile != null) {
                 keyAlias System.getenv("APK_SIGNING_KEY_ALIAS")
@@ -38,6 +38,7 @@ android {
                 storePassword 'android'
             }
         }
+
         debug {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
@@ -89,7 +90,7 @@ android {
     // http://google.github.io/android-gradle-dsl/current/com.android.build.gradle.internal.dsl.BuildType.html
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+                signingConfig signingConfigs.release
 
             ndk {
                 abiFilters "armeabi-v7a"
@@ -114,7 +115,7 @@ android {
         jni.srcDirs = []
         jniLibs.srcDir rootProject.file('libs')
     }
-    ndkVersion '21.3.6528147'
+ ndkVersion '21.3.6528147'
 }
 
 repositories {
