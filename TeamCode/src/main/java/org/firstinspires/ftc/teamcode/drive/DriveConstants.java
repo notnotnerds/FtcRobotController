@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode.drive;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
-import org.opencv.core.TickMeter;
-
 /*
  * Constants shared between multiple drive types.
  *
@@ -35,7 +33,7 @@ public class DriveConstants {
      */
     public static final boolean RUN_USING_ENCODER = true;
     public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0,
-            getMotorVelocityF(MAX_RPM/60* TICKS_PER_REV));
+            13.456968);
 
     /*
      * These are physical constants that can be determined from your robot (including the track
@@ -46,7 +44,7 @@ public class DriveConstants {
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
     public static double WHEEL_RADIUS = 1.9685; // in
-    public static double GEAR_RATIO = 2.0; // output (wheel) speed / input (motor) speed //approx 10 teeth/5 teeth
+    public static double GEAR_RATIO = .5; // output (wheel) speed / input (motor) speed*finalX stuff
     public static double TRACK_WIDTH = 15; // in
 
     /*
