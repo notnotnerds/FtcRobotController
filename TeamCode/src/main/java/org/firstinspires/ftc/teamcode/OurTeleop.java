@@ -20,18 +20,18 @@ import org.openftc.revextensions2.ExpansionHubEx;
  */
 @TeleOp(name="Teleop", group = "TeleOp")
 public class OurTeleop extends LinearOpMode {
-    public DcMotorEx fl;
-    public DcMotorEx fr;
-    public DcMotorEx bl;
-    public DcMotorEx br;
-    public DcMotor spinnyThing; //aka 1150 rpm motor, the one that makes a ton of noise by using zip ties.
-    public DcMotorEx fasterSpinnyThing; //aka 6k rpm motor
-    public DcMotor ring_sander; //it sands down the rings
-    //public DcMotor wobble_lift; //it raises the wobble goal over the field edge ----we don't have this
-    public Servo ring_kicker; //it kicks the rings into the fasterSpinnyThing
+    private DcMotorEx fl;
+    private DcMotorEx fr;
+    private DcMotorEx bl;
+    private DcMotorEx br;
+    private DcMotor spinnyThing; //aka 1150 rpm motor, the one that makes a ton of noise by using zip ties.
+    private DcMotorEx fasterSpinnyThing; //aka 6k rpm motor
+    private DcMotor ring_sander; //it sands down the rings
+    //private DcMotor wobble_lift; //it raises the wobble goal over the field edge ----we don't have this
+    private Servo ring_kicker; //it kicks the rings into the fasterSpinnyThing
     ExpansionHubEx expansionHub;
-    public Servo grabber; //who said we needed to give them normal names?
-    public Servo grabNFlip; //seriously, you thought I would name this better?
+    private Servo grabber; //who said we needed to give them normal names?
+    private Servo grabNFlip; //seriously, you thought I would name this better?
 
     @Override
     public void runOpMode() {
@@ -46,7 +46,6 @@ public class OurTeleop extends LinearOpMode {
         bl = hardwareMap.get(DcMotorEx.class, "bl");
         br = hardwareMap.get(DcMotorEx.class, "br");
         spinnyThing =hardwareMap.dcMotor.get("intake");
-        //wobble_lift=hardwareMap.dcMotor.get("lift");
         fasterSpinnyThing=hardwareMap.get(DcMotorEx.class, "shooter");
         fasterSpinnyThing.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         grabber=hardwareMap.servo.get("grabber");
@@ -56,31 +55,19 @@ public class OurTeleop extends LinearOpMode {
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
         spinnyThing.setDirection(DcMotor.Direction.REVERSE);
-        //FtcDashboard dashboard = FtcDashboard.getInstance();
 
-        double m = .5; //Danny's favorite
-        double p = .5; //intake multiplier
+        double m = 1; //Danny's favorite
+        double p = 1; //intake multiplier
         double a = 1; //reverse
         double counter = 0; //for fasterSpinnyThing
 
         waitForStart();
 
         while (opModeIsActive()) {
-            //following is not for competition
-            /*TelemetryPacket packet = new TelemetryPacket();
-            packet.put("fl", fl.getCurrentPosition());
-            packet.put("fr", fr.getCurrentPosition());
-            packet.put("br", br.getCurrentPosition());
-            packet.put("bl", bl.getCurrentPosition());
-            dashboard.sendTelemetryPacket(packet);
-            telemetry.addData("fl", fl.getCurrentPosition());
-            telemetry.addData("fr", fr.getCurrentPosition());
-            telemetry.addData("bl", bl.getCurrentPosition());
-            telemetry.addData("br", br.getCurrentPosition());
-            telemetry.update();*/
+
 
 //************** intake system control ***************
-            if (gamepad2.a) {//intake speed (half/full power)
+/*            if (gamepad2.a) {//intake speed (half/full power)
                 if (p == .5) {
                     p = 1;
                 } else {
@@ -93,15 +80,15 @@ public class OurTeleop extends LinearOpMode {
                 } else {
                     a = 1;
                 }
-            }
+            }*/
 
             //move rings up ramp
             if(gamepad2.x){
-                ring_sander.setPower(p * a);
-                spinnyThing.setPower(p * a);
+                ring_sander.setPower(-p);
+                spinnyThing.setPower(p);
             }
             else{
-                ring_sander.setPower(-gamepad2.left_stick_y);
+                ring_sander.setPower(gamepad2.left_stick_y);
                 spinnyThing.setPower(-gamepad2.right_stick_y);
             }
 //*************** ring booster servo control **********
@@ -150,10 +137,10 @@ public class OurTeleop extends LinearOpMode {
 
 //***************** drive stuff beneath here ******************
             if (gamepad1.right_bumper) {//drive speed multiplier
-                if (m == .5) {
+                if (m == .75) {
                     m = 1;
-                } else if (m == 1) {
-                    m = .5;
+                } else {
+                    m = .75;
                 }
             }
             double drive = gamepad1.right_stick_y;

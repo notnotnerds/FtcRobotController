@@ -32,6 +32,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
@@ -40,6 +41,7 @@ import org.firstinspires.ftc.teamcode.util.AxesSigns;
 import org.firstinspires.ftc.teamcode.util.BNO055IMUUtil;
 import org.firstinspires.ftc.teamcode.util.DashboardUtil;
 import org.firstinspires.ftc.teamcode.util.LynxModuleUtil;
+import org.openftc.revextensions2.ExpansionHubEx;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,6 +100,14 @@ public class SampleMecanumDrive extends MecanumDrive {
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
     private BNO055IMU imu;
+/* *********stuff from teleop ******************************** */
+    public  DcMotorEx spinnyThing; //aka 1150 rpm motor, the one that makes a ton of noise by using zip ties.
+    public DcMotorEx fasterSpinnyThing; //aka 6k rpm motor
+    public DcMotorEx ring_sander; //it sands down the rings
+    public Servo ring_kicker; //it kicks the rings into the fasterSpinnyThing
+    ExpansionHubEx expansionHub;
+    public Servo grabber; //who said we needed to give them normal names?
+    public Servo grabNFlip; //seriously, you thought I would name this better?
 
     private VoltageSensor batteryVoltageSensor;
 
@@ -108,7 +118,17 @@ public class SampleMecanumDrive extends MecanumDrive {
 
         dashboard = FtcDashboard.getInstance();
         dashboard.setTelemetryTransmissionInterval(25);
-
+        /* ************ hardwaremap from teleop **************** */
+        expansionHub = hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 173");
+        spinnyThing =hardwareMap.get(DcMotorEx.class, "intake");
+        fasterSpinnyThing=hardwareMap.get(DcMotorEx.class, "shooter");
+        fasterSpinnyThing.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        grabber=hardwareMap.servo.get("grabber");
+        grabNFlip=hardwareMap.servo.get("flipper");
+        ring_sander=hardwareMap.get(DcMotorEx.class, "ring_lift");
+        ring_kicker=hardwareMap.servo.get("ring_push");
+        spinnyThing.setDirection(DcMotor.Direction.REVERSE);
+/* ********* Added to hardwaremap up to here **************** */
         clock = NanoClock.system();
 
         mode = Mode.IDLE;
@@ -161,7 +181,7 @@ public class SampleMecanumDrive extends MecanumDrive {
             setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
-        setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //too big of a voltage drop!
 
         if (RUN_USING_ENCODER && MOTOR_VELO_PID != null) {
             setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);

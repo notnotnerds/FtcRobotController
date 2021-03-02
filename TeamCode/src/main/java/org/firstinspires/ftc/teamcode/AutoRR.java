@@ -19,7 +19,7 @@ import org.openftc.revextensions2.ExpansionHubEx;
  **********************We do not guarantee that your robot will function correctly after you have used this code**********************
  **************************************************Please use some other team's code**************************************************
  */
-
+@Disabled
 @Autonomous (name = "Red side right", group = "Autonomous stuff")
 public class AutoRR extends LinearOpMode{
     /* where is the starting position (depending on which line it's starting at) (repeat until certain amount of time idk)
@@ -110,7 +110,7 @@ public class AutoRR extends LinearOpMode{
             //wait to get to new location
             sleep(10);
         }
-        while (opModeIsActive()) {//just flash LED's for now
+        while (!opModeIsActive()) {//just flash LED's for now
             if(CameraEx.ringCount == 4) {
                 RedZoneA();
             }
