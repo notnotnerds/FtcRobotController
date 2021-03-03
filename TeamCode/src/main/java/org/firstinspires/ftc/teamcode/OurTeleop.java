@@ -62,7 +62,6 @@ public class OurTeleop extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-
 /*************** intake system control ****************/
 /*            if (gamepad2.a) {//intake speed (half/full power)
                 if (p == .5) {
@@ -114,6 +113,7 @@ public class OurTeleop extends LinearOpMode {
                 }
             } else if (gamepad2.right_trigger < .1) {
                 counter = 0;
+                telemetry.clear();
                 fasterSpinnyThing.setVelocity(0);
             }
 
