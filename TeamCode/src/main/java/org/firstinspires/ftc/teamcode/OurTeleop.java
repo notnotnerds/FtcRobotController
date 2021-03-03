@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.openftc.revextensions2.ExpansionHubEx;
 
 
-/*
+/**
  ***************************************This code is the property of FTC team 12051 NotNotNerds***************************************
  **********************We do not guarantee that your robot will function correctly after you have used this code**********************
  **************************************************Please use some other team's code**************************************************
@@ -36,8 +36,6 @@ public class OurTeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         telemetry.addLine("Robot has been turned on. Run for your life!");
-        telemetry.addLine("to control wobble arm, use dpad");
-        telemetry.addLine("to shoot rings, ");
         telemetry.update();
 
         expansionHub = hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 173");
@@ -60,13 +58,12 @@ public class OurTeleop extends LinearOpMode {
         double p = 1; //intake multiplier
         double a = 1; //reverse
         double counter = 0; //for fasterSpinnyThing
-
         waitForStart();
 
         while (opModeIsActive()) {
 
 
-//************** intake system control ***************
+/*************** intake system control ****************/
 /*            if (gamepad2.a) {//intake speed (half/full power)
                 if (p == .5) {
                     p = 1;
@@ -91,19 +88,19 @@ public class OurTeleop extends LinearOpMode {
                 ring_sander.setPower(gamepad2.left_stick_y);
                 spinnyThing.setPower(-gamepad2.right_stick_y);
             }
-//*************** ring booster servo control **********
+/*************** ring booster servo control **********/
             if(gamepad2.right_bumper){
                 ring_kicker.setPosition(1);
             }
             else{
                 ring_kicker.setPosition(.9);
             }
-//**************** shooter control *******************
+/**************** shooter control *******************/
             if (gamepad2.right_trigger > .1) {
                 if (counter < 2000) {
                     fasterSpinnyThing.setVelocity(1000); //if you are holding me for too long, I will tell you that you have failed to use me correctly --6k rpm yellow jacket
-                    telemetry.addLine("You are currently heating my special motor up --definitely not Stephan"); //--rev control hub
-                    telemetry.addData("counter says", counter);
+                    telemetry.addLine("You are currently heating my special motor up --Rev Control Hub");
+                    telemetry.addData("The motor usage counter says", counter);
                     telemetry.update();
                     counter = counter + 1;
                 }
@@ -120,7 +117,7 @@ public class OurTeleop extends LinearOpMode {
                 fasterSpinnyThing.setVelocity(0);
             }
 
-//**************** Wobble arm controls *******************
+/**************** Wobble arm controls *******************/
             if(gamepad2.dpad_up){//flip arm in
                 grabNFlip.setPosition(.25);
             }
@@ -135,7 +132,7 @@ public class OurTeleop extends LinearOpMode {
                 grabber.setPosition(0);
             }
 
-//***************** drive stuff beneath here ******************
+/***************** drive stuff beneath here ******************/
             if (gamepad1.right_bumper) {//drive speed multiplier
                 if (m == .75) {
                     m = 1;
