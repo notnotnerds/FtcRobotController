@@ -20,11 +20,14 @@ public class AutoBlue extends LinearOpMode {
     OpenCvCamera webcam;
     CameraEx.SkystoneDeterminationPipeline pipeline;
     int rings=0;
+    RingNumMoves ringNumMoves;
 
     @Override
     public void runOpMode(){
+        SampleMecanumDrive drive =new SampleMecanumDrive(hardwareMap);
+//        RingNumMoves moveTime=new RingNumMoves();
         expansionHub = hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 173");
-        /*int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         pipeline = new CameraEx.SkystoneDeterminationPipeline();
         webcam.setPipeline(pipeline);
@@ -32,47 +35,29 @@ public class AutoBlue extends LinearOpMode {
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
+                //TODO: change rotation of camera????
                 webcam.startStreaming(640, 480, OpenCvCameraRotation.UPSIDE_DOWN); //keep it at 480p
             }
-        });*/
+        });
+        ringNumMoves.fourRings();
+        ringNumMoves.oneRing();
+        ringNumMoves.noRings();
 
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(-65, 49, Math.toRadians(90));
-        drive.setPoseEstimate(startPose);
-        Trajectory myTrajectory1 = drive.trajectoryBuilder(startPose)
-            .strafeLeft(10)
-            .build();
-        Trajectory secondOne1 = drive.trajectoryBuilder(myTrajectory1.end())
-                .forward(90)
-                .build();
-        Trajectory thirdOne1=drive.trajectoryBuilder(secondOne1.end())
-                .strafeRight(22)
-                .build();
-        Trajectory fourthOne1=drive.trajectoryBuilder(thirdOne1.end())
-                .back(35)
-                .build();
-        Trajectory fifthOne1=drive.trajectoryBuilder(fourthOne1.end())
-                .back(5)
-                .build();
-        Trajectory lastOne1=drive.trajectoryBuilder(fifthOne1.end())
-                .forward(25)
-                .build();
-
-        while (!opModeIsActive()) {//just flash LED's for now
-
+        while (!opModeIsActive()) {
             telemetry.addData("Ring Count", CameraEx.ringCount);
             telemetry.update();
-        rings=CameraEx.ringCount;
+            rings=CameraEx.ringCount;
         }
         waitForStart();
         webcam.stopStreaming();
         if(rings == 4) {
-            //get to zone C
+
         }
         else if(rings == 1){
             drive.grabNFlip.setPosition(1); //pickup wobble
             drive.grabber.setPosition(.4);
-            drive.followTrajectory(myTrajectory1); //strafe left
+            drive.followTrajectory(ringNumMoves.oneRing(Trajectory firstOne); //strafe left
+
             drive.followTrajectory(secondOne1); //go forward-ish
             drive.followTrajectory(thirdOne1);//strafe right
             drive.grabber.setPosition(0); //drop wobble
@@ -93,8 +78,8 @@ public class AutoBlue extends LinearOpMode {
             drive.ring_kicker.setPosition(1);//shoot ring 3
             sleep(250);
             drive.ring_kicker.setPosition(.9);
-            drive.spinnyThing.setVelocity(500);
-            drive.ring_sander.setVelocity(-500);
+            drive.spinnyThing.setVelocity(750);
+            drive.ring_sander.setVelocity(-750);
             drive.followTrajectory(fifthOne1); //pickup ring 4
             sleep(250);
             drive.ring_kicker.setPosition(1);//shoot ring 4
@@ -103,7 +88,7 @@ public class AutoBlue extends LinearOpMode {
             drive.followTrajectory(lastOne1); //go to park on line
         }
         else{
-            //get to zone A
+            moveTime.noRings();
         }
 
     }
