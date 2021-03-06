@@ -122,9 +122,9 @@ public class CameraEx extends LinearOpMode
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(84,173);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(380,230);
 
-        static final int REGION_WIDTH = 130;
+        static final int REGION_WIDTH = 150;
         static final int REGION_HEIGHT = 95;
 
         final int FOUR_RING_THRESHOLD = 150;

@@ -24,9 +24,9 @@ public class OurTeleop extends LinearOpMode {
     private DcMotorEx fr;
     private DcMotorEx bl;
     private DcMotorEx br;
-    private DcMotor spinnyThing; //aka 1150 rpm motor, the one that makes a ton of noise by using zip ties.
+    private DcMotorEx spinnyThing; //aka 1150 rpm motor, the one that makes a ton of noise by using zip ties.
     private DcMotorEx fasterSpinnyThing; //aka 6k rpm motor
-    private DcMotor ring_sander; //it sands down the rings
+    private DcMotorEx ring_sander; //it sands down the rings
     //private DcMotor wobble_lift; //it raises the wobble goal over the field edge ----we don't have this
     private Servo ring_kicker; //it kicks the rings into the fasterSpinnyThing
     ExpansionHubEx expansionHub;
@@ -43,12 +43,12 @@ public class OurTeleop extends LinearOpMode {
         fr = hardwareMap.get(DcMotorEx.class, "fr");
         bl = hardwareMap.get(DcMotorEx.class, "bl");
         br = hardwareMap.get(DcMotorEx.class, "br");
-        spinnyThing =hardwareMap.dcMotor.get("intake");
+        spinnyThing =hardwareMap.get(DcMotorEx.class, "intake");
         fasterSpinnyThing=hardwareMap.get(DcMotorEx.class, "shooter");
         fasterSpinnyThing.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         grabber=hardwareMap.servo.get("grabber");
         grabNFlip=hardwareMap.servo.get("flipper");
-        ring_sander=hardwareMap.dcMotor.get("ring_lift");
+        ring_sander=hardwareMap.get(DcMotorEx.class, "ring_lift");
         ring_kicker=hardwareMap.servo.get("ring_push");
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
@@ -63,24 +63,11 @@ public class OurTeleop extends LinearOpMode {
         while (opModeIsActive()) {
 
 /*************** intake system control ****************/
-/*            if (gamepad2.a) {//intake speed (half/full power)
-                if (p == .5) {
-                    p = 1;
-                } else {
-                    p = .5;
-                }
-            }
-            if (gamepad2.b) { //intake reverse
-                if (a == 1) {
-                    a = -1;
-                } else {
-                    a = 1;
-                }
-            }*/
 
+            ring_sander.setPower(0);
             //move rings up ramp
             if(gamepad2.x){
-                ring_sander.setPower(-p);
+                ring_sander.setVelocity(-2000);
                 spinnyThing.setPower(p);
             }
             else{
@@ -89,17 +76,18 @@ public class OurTeleop extends LinearOpMode {
             }
 /*************** ring booster servo control **********/
             if(gamepad2.right_bumper){
-                ring_kicker.setPosition(1);
+                ring_kicker.setPosition(9);
             }
             else{
-                ring_kicker.setPosition(.9);
+                ring_kicker.setPosition(.75);
             }
 /**************** shooter control *******************/
             if (gamepad2.right_trigger > .1) {
                 if (counter < 2000) {
-                    fasterSpinnyThing.setVelocity(1000); //if you are holding me for too long, I will tell you that you have failed to use me correctly --6k rpm yellow jacket
+                    fasterSpinnyThing.setVelocity(375); //if you are holding me for too long, I will tell you that you have failed to use me correctly --6k rpm yellow jacket
                     telemetry.addLine("You are currently heating my special motor up --Rev Control Hub");
                     telemetry.addData("The motor usage counter says", counter);
+                    telemetry.addData("Velocity", fasterSpinnyThing.getVelocity());
                     telemetry.update();
                     counter = counter + 1;
                 }
@@ -122,7 +110,7 @@ public class OurTeleop extends LinearOpMode {
                 grabNFlip.setPosition(.25);
             }
             if(gamepad2.dpad_down){//flip arm out
-                grabNFlip.setPosition(1);
+                grabNFlip.setPosition(.9);
             }
 
             if(gamepad2.dpad_left){//grab wobble
