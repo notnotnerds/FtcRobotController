@@ -83,15 +83,14 @@ public class OurTeleop extends LinearOpMode {
             }
 /**************** shooter control *******************/
             if (gamepad2.right_trigger > .1) {
-                if (counter < 2000) {
+                if (counter < 2500) {
                     fasterSpinnyThing.setVelocity(375); //if you are holding me for too long, I will tell you that you have failed to use me correctly --6k rpm yellow jacket
                     telemetry.addLine("You are currently heating my special motor up --Rev Control Hub");
                     telemetry.addData("The motor usage counter says", counter);
-                    telemetry.addData("Velocity", fasterSpinnyThing.getVelocity());
                     telemetry.update();
                     counter = counter + 1;
                 }
-                if (counter >= 2000) {
+                if (counter >= 2500) {
                     fasterSpinnyThing.setPower(0); //Don't burn me
                     telemetry.addLine("You are currently heating my special motor up"); //--Rev Control Hub
                     String overheat_notice = "You have been using my poor motor for the last " + counter + "cycles of you holding down the right trigger\n" + "release it now!"; //--Rev Control Hub

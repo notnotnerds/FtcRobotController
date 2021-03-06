@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.vision.CameraEx;
+import org.opencv.core.Mat;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -38,7 +39,6 @@ public class AutoBlue extends LinearOpMode {
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                //TODO: change rotation of camera????
                 webcam.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT); //keep it at 480p
             }
         });
@@ -65,52 +65,109 @@ public class AutoBlue extends LinearOpMode {
         }
 
     }
-    public void oneRing() {
+
+    public void noRings(){
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-65, 49);
+        Pose2d startPose = new Pose2d(-65, 40);
         drive.setPoseEstimate(startPose);
         Trajectory firstOne0 = drive.trajectoryBuilder(startPose)
-                .lineTo(new Vector2d(20, 36))
+                .forward(65)
                 .build();
         Trajectory secondOne0 = drive.trajectoryBuilder(firstOne0.end())
-                .lineTo(new Vector2d(20, 36))
+                .strafeLeft(15)
                 .build();
         Trajectory thirdOne0 = drive.trajectoryBuilder(secondOne0.end())
-                .back(40)
+                .forward(20)
                 .build();
-        Trajectory fourthOne0 = drive.trajectoryBuilder(thirdOne0.end())
-                .back(5)
-                .build();
-
+        /********** start motion here ********* */
         drive.grabNFlip.setPosition(.9); //pickup wobble
-        sleep(750);
+        sleep(500);
         drive.grabber.setPosition(0);
-        sleep(10);
+        sleep(100);
         drive.grabNFlip.setPosition(.8);//raise wobble above field
+        drive.turn(Math.toRadians(135));
         drive.followTrajectory(firstOne0); //move to wobble drop off
-        drive.followTrajectory(secondOne0); //go to launch zone
         drive.grabber.setPosition(0.4); //drop wobble
         drive.grabNFlip.setPosition(.25); //flip arm in
         drive.setMotorPowers(1, 1, -1, -1);//rotate?
         sleep(250);
         drive.setMotorPowers(0, 0,0,0);
         drive.fasterSpinnyThing.setVelocity(400); //start shooting
-        drive.followTrajectory(thirdOne0); //go to launch zone
-        drive.ring_kicker.setPosition(1);//shoot ring 1
+        drive.followTrajectory(secondOne0); //go to launch zone
+        drive.turn(Math.toRadians(-45));
+        drive.ring_kicker.setPosition(.9);//shoot ring 1
         sleep(200);
-        drive.ring_kicker.setPosition(.9);
+        drive.ring_kicker.setPosition(.75);
         sleep(500);
-        drive.ring_kicker.setPosition(1); //shoot ring 2
+        drive.ring_kicker.setPosition(.9); //shoot ring 2
         sleep(200);
-        drive.ring_kicker.setPosition(.9);
+        drive.ring_kicker.setPosition(.75);
         sleep(200);
         drive.spinnyThing.setPower(1); //move last ring up to shooter
-        drive.ring_sander.setVelocity(-1500);
-        drive.followTrajectory(thirdOne0); //go to launch zone
+        drive.ring_sander.setVelocity(-750);
         sleep(750);
-        drive.ring_kicker.setPosition(1); //shoot ring 3
-        drive.ring_kicker.setPosition(.9);
+        drive.ring_kicker.setPosition(.9); //shoot ring 3
+        drive.ring_kicker.setPosition(.75);
+        drive.spinnyThing.setVelocity(0);
+        drive.fasterSpinnyThing.setVelocity(0);
+        drive.ring_sander.setVelocity(0);
+        drive.followTrajectory(thirdOne0);
+    }
+
+    public void oneRing() {
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+        Pose2d startPose = new Pose2d(-65, 40);
+        drive.setPoseEstimate(startPose);
+        Trajectory firstOne1 = drive.trajectoryBuilder(startPose)
+                .strafeRight(25)
+                .build();
+        Trajectory secondOne1 = drive.trajectoryBuilder(firstOne1.end())
+                .forward(80)
+                .build();
+        Trajectory middle1 = drive.trajectoryBuilder(secondOne1.end())
+                .strafeLeft(25)
+                .build();
+        Trajectory thirdOne1 = drive.trajectoryBuilder(middle1.end())
+                .back(40)
+                .build();
+        Trajectory fourthOne1 = drive.trajectoryBuilder(thirdOne1.end())
+                .back(5)
+                .build();
+        /********** start motion here ********* */
+        drive.grabNFlip.setPosition(.9); //pickup wobble
+        sleep(500);
+        drive.grabber.setPosition(0);
+        sleep(250);
+        drive.grabNFlip.setPosition(.7);//raise wobble above field
+        drive.followTrajectory(firstOne1); //move to wobble drop off
+        drive.turn(Math.toRadians(90));
+        drive.followTrajectory(secondOne1); //go to launch zone
+        drive.turn(Math.toRadians(-90));
+        drive.followTrajectory(middle1);
+       // drive.turn(Math.toRadians(-90));
+        drive.grabber.setPosition(0.4); //drop wobble
+        drive.grabNFlip.setPosition(.25); //flip arm in
+        drive.setMotorPowers(1, 1, -1, -1);//rotate?
+        sleep(250);
+        drive.setMotorPowers(0, 0,0,0);
+        drive.fasterSpinnyThing.setVelocity(400); //start shooting
+        drive.followTrajectory(thirdOne1); //go to launch zone
+        drive.ring_kicker.setPosition(.9);//shoot ring 1
+        sleep(200);
+        drive.ring_kicker.setPosition(.75);
+        sleep(500);
+        drive.ring_kicker.setPosition(.9); //shoot ring 2
+        sleep(200);
+        drive.ring_kicker.setPosition(.75);
+        sleep(200);
+        drive.spinnyThing.setPower(.9); //move last ring up to shooter
+        drive.ring_sander.setVelocity(-1500);
+        drive.followTrajectory(thirdOne1); //go to launch zone
+        sleep(750);
+        drive.ring_kicker.setPosition(.9); //shoot ring 3
+        drive.ring_kicker.setPosition(.75);
         drive.spinnyThing.setVelocity(0);
         drive.fasterSpinnyThing.setVelocity(0);
         drive.ring_sander.setVelocity(0);
@@ -120,119 +177,81 @@ public class AutoBlue extends LinearOpMode {
     }
 
 
-    public void noRings(){
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-        Pose2d startPose = new Pose2d(-65, 49);
-        drive.setPoseEstimate(startPose);
-        Trajectory firstOne0 = drive.trajectoryBuilder(startPose)
-                .lineTo(new Vector2d(0, 59))
-                .build();
-        Trajectory secondOne0 = drive.trajectoryBuilder(firstOne0.end())
-                .strafeLeft(1)
-                .build();
-        Trajectory thirdOne0 = drive.trajectoryBuilder(secondOne0.end())
-                .forward(10)
-                .build();
-
-        drive.grabNFlip.setPosition(.9); //pickup wobble
-        sleep(750);
-        drive.grabber.setPosition(0);
-        sleep(10);
-        drive.grabNFlip.setPosition(.8);//raise wobble above field
-        drive.followTrajectory(firstOne0); //move to wobble drop off
-        drive.grabber.setPosition(0.4); //drop wobble
-        drive.grabNFlip.setPosition(.25); //flip arm in
-        drive.setMotorPowers(1, 1, -1, -1);//rotate?
-        sleep(250);
-        drive.setMotorPowers(0, 0,0,0);
-        drive.fasterSpinnyThing.setVelocity(400); //start shooting
-        drive.followTrajectory(secondOne0); //go to launch zone
-        drive.ring_kicker.setPosition(1);//shoot ring 1
-        sleep(200);
-        drive.ring_kicker.setPosition(.9);
-        sleep(500);
-        drive.ring_kicker.setPosition(1); //shoot ring 2
-        sleep(200);
-        drive.ring_kicker.setPosition(.9);
-        sleep(200);
-        drive.spinnyThing.setPower(1); //move last ring up to shooter
-        drive.ring_sander.setVelocity(-750);
-        sleep(750);
-        drive.ring_kicker.setPosition(1); //shoot ring 3
-        drive.ring_kicker.setPosition(.9);
-        drive.spinnyThing.setVelocity(0);
-        drive.fasterSpinnyThing.setVelocity(0);
-        drive.ring_sander.setVelocity(0);
-        drive.followTrajectory(thirdOne0);
-    }
     public void fourRings(){
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-65, 49);
+        Pose2d startPose = new Pose2d(-65, 40);
         drive.setPoseEstimate(startPose);
         Trajectory firstOne4 = drive.trajectoryBuilder(startPose)
-                .strafeRight(40)
+                .strafeRight(45)
                 .build();
         Trajectory secondOne4 = drive.trajectoryBuilder(firstOne4.end())
                 .forward(115)
                 .build();
         Trajectory thirdOne4=drive.trajectoryBuilder(secondOne4.end())
-                .lineTo(new Vector2d(0, 37))
+                .back(80)
                 .build();
-        Trajectory fourthOne4 = drive.trajectoryBuilder(thirdOne4.end())
+        Trajectory inBetween4=drive.trajectoryBuilder(thirdOne4.end())
+                .strafeLeft(35)
+                .build();
+        Trajectory fourthOne4 = drive.trajectoryBuilder(inBetween4.end())
                 .back(15)
                 .build();
         Trajectory fifthOne4 = drive.trajectoryBuilder(fourthOne4.end())
                 .back(5)
                 .build();
         Trajectory sixthOne4=drive.trajectoryBuilder(fifthOne4.end())
-                .forward(15)
+                .forward(40)
                 .build();
         /********** start motion here ********* */
-        drive.grabNFlip.setPosition(1); //pickup wobble
-        sleep(750);
+        drive.grabNFlip.setPosition(.9); //pickup wobble
+        sleep(500);
         drive.grabber.setPosition(0);
+        sleep(250);
         drive.grabNFlip.setPosition(.75);
         drive.followTrajectory(firstOne4); //strafe to left of ring stack
+        drive.turn(Math.toRadians(120));
         drive.followTrajectory(secondOne4); //go forward
         drive.grabber.setPosition(0.4); //drop wobble
         drive.grabNFlip.setPosition(.25); //flip arm in
-        drive.fasterSpinnyThing.setVelocity(400); //start shooting
+        drive.followTrajectory(inBetween4);
+        drive.turn(Math.toRadians(135));
         drive.followTrajectory(thirdOne4);//go diagonally to launch area
-        drive.ring_kicker.setPosition(1);//shoot ring 1
+        drive.fasterSpinnyThing.setVelocity(400); //start shooting
         sleep(250);
-        drive.ring_kicker.setPosition(.9);
+        drive.ring_kicker.setPosition(.9);//shoot ring 1
         sleep(250);
-        drive.ring_kicker.setPosition(1); //shoot ring 2
+        drive.ring_kicker.setPosition(.75);
         sleep(250);
-        drive.ring_kicker.setPosition(.9);
+        drive.ring_kicker.setPosition(.9); //shoot ring 2
+        sleep(250);
+        drive.ring_kicker.setPosition(.75);
         drive.spinnyThing.setPower(1); //move last ring up to shooter
         drive.ring_sander.setVelocity(-1500);
         sleep(250);
-        drive.ring_kicker.setPosition(1); //shoot ring 3
+        drive.ring_kicker.setPosition(.9); //shoot ring 3
         sleep(250);
-        drive.ring_kicker.setPosition(.9);
+        drive.ring_kicker.setPosition(.75);
         drive.spinnyThing.setVelocity(750); //speed up intake
         drive.ring_sander.setVelocity(-750);
         drive.followTrajectory(fourthOne4); //pickup rings 4-7
         sleep(250);
-        drive.ring_kicker.setPosition(1);//shoot ring 4
+        drive.ring_kicker.setPosition(.9);//shoot ring 4
         sleep(250);
-        drive.ring_kicker.setPosition(.9);
+        drive.ring_kicker.setPosition(.75);
         sleep(250);
-        drive.ring_kicker.setPosition(1);//shoot ring 5
+        drive.ring_kicker.setPosition(.9);//shoot ring 5
         sleep(250);
-        drive.ring_kicker.setPosition(.9);
+        drive.ring_kicker.setPosition(.75);
         sleep(250);
         drive.followTrajectory(fourthOne4); //pickup rings 4-7
-        drive.ring_kicker.setPosition(1);//shoot ring 6
+        drive.ring_kicker.setPosition(.9);//shoot ring 6
         sleep(250);
-        drive.ring_kicker.setPosition(.9);
+        drive.ring_kicker.setPosition(.75);
         sleep(250);
-        drive.ring_kicker.setPosition(1);//shoot ring 7
+        drive.ring_kicker.setPosition(.9);//shoot ring 7
         sleep(250);
-        drive.ring_kicker.setPosition(.9);
+        drive.ring_kicker.setPosition(.75);
         drive.followTrajectory(sixthOne4); //go to park on line
         drive.spinnyThing.setVelocity(0);
         drive.fasterSpinnyThing.setVelocity(0);

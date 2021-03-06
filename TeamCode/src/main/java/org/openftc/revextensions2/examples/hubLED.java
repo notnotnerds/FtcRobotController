@@ -31,7 +31,7 @@ import org.openftc.revextensions2.ExpansionHubEx;
  **********************We do not guarantee that your robot will function correctly after you have used this code**********************
  **************************************************Please use some other team's code**************************************************
  */
-
+@Disabled
 @TeleOp(name ="Party")
 public class hubLED extends LinearOpMode
 {
