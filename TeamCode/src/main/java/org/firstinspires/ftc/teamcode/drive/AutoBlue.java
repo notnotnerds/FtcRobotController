@@ -19,7 +19,6 @@ import org.openftc.revextensions2.ExpansionHubEx;
  **********************We do not guarantee that your robot will function correctly after you have used this code**********************
  **************************************************Please use some other team's code**************************************************
  */
-/** again, your robot will NOT work with this code--It is NOT set up like ours is.*/
 @Autonomous
 public class AutoBlue extends LinearOpMode {
     ExpansionHubEx expansionHub;
